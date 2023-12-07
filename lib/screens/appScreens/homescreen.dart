@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:list_fyp_project/controller/googlesignIncontroller.dart';
 import 'package:list_fyp_project/screens/common_widgets/applogo.dart';
 import 'package:list_fyp_project/screens/common_widgets/homescreen_common.dart';
 
@@ -13,6 +15,9 @@ class AfterSplash extends StatefulWidget {
 }
 
 class _AfterSplashState extends State<AfterSplash> {
+  final GoogleSignInController _googleSignInController =
+      Get.put(GoogleSignInController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +34,9 @@ class _AfterSplashState extends State<AfterSplash> {
                   title1: "Sign in with Google",
                   image: googleimage,
                   color1: Colors.white,
-                  ontap1: () {}),
+                  ontap1: () {
+                    _googleSignInController.signInWithGoogle();
+                  }),
               20.heightBox,
               homeScreencommon(
                   title1: "Sign in with E-mail",
