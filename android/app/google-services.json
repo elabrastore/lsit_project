@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "756503101650",
+    "project_id": "lsitproject",
+    "storage_bucket": "lsitproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756503101650:android:e89795a921ae0f4e0e2d0b",
+        "android_client_info": {
+          "package_name": "com.example.list_fyp_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmd0uPhEDRl9hDMwhmXeGxJiLGlaoYJAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:list_fyp_project/screens/common_widgets/applogo.dart';
+import 'package:list_fyp_project/screens/common_widgets/homescreen_common.dart';
+
+import 'package:list_fyp_project/screens/constant/image.dart';
+import 'package:velocity_x/velocity_x.dart';
+
+class AfterSplash extends StatefulWidget {
+  const AfterSplash({super.key});
+
+  @override
+  State<AfterSplash> createState() => _AfterSplashState();
+}
+
+class _AfterSplashState extends State<AfterSplash> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(children: [
+        Form(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              applogowidget(),
+              const SizedBox(
+                height: 30,
+              ),
+              homeScreencommon(
+                  title1: "Sign in with Google",
+                  image: googleimage,
+                  color1: Colors.white,
+                  ontap1: () {}),
+              20.heightBox,
+              homeScreencommon(
+                  title1: "Sign in with E-mail",
+                  image: email2,
+                  color1: Colors.white,
+                  ontap1: () {}),
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+}
