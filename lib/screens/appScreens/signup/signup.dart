@@ -1,5 +1,9 @@
+// ignore_for_file: unused_local_variable
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:list_fyp_project/controller/sigin_up_controller.dart';
 
 import 'package:list_fyp_project/screens/appScreens/signIn/signin_screen.dart';
 import 'package:list_fyp_project/screens/common_widgets/applogo.dart';
@@ -15,9 +19,16 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final SignUpController signUpController = Get.put(SignUpController());
   bool? ischeck = false;
   bool passwordVisible = true;
   bool confirmpassVisible = true;
+
+  TextEditingController username = TextEditingController();
+  TextEditingController phone1 = TextEditingController();
+  TextEditingController email2 = TextEditingController();
+  TextEditingController passwordT = TextEditingController();
+  TextEditingController conformPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +58,7 @@ class _SignupState extends State<Signup> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
+                  controller: username,
                   autofocus: false,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -80,6 +92,7 @@ class _SignupState extends State<Signup> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
+                  controller: phone1,
                   autofocus: false,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -114,6 +127,7 @@ class _SignupState extends State<Signup> {
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
                   autofocus: false,
+                  controller: email2,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "pleas enter Email";
@@ -147,6 +161,7 @@ class _SignupState extends State<Signup> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
+                  controller: passwordT,
                   obscureText: passwordVisible,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -190,6 +205,7 @@ class _SignupState extends State<Signup> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
+                  controller: conformPassword,
                   obscureText: confirmpassVisible,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -302,7 +318,50 @@ class _SignupState extends State<Signup> {
                             backgroundColor: ischeck == true
                                 ? const Color.fromARGB(255, 255, 136, 0)
                                 : Colors.grey),
-                        onPressed: () {},
+                        onPressed: () async {
+                          String name = username.text.trim();
+                          String phone = phone1.text.trim();
+                          String email = email2.text.trim();
+                          String password = passwordT.text.trim();
+                          String cpassword = conformPassword.text.trim();
+                          String userDeviceToken = "";
+
+                          if (email == "" ||
+                              password == "" ||
+                              cpassword == "" ||
+                              name == "" ||
+                              phone == "") {
+                            Get.snackbar("Error", "Missing Creditials",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white);
+                          } else if (password != cpassword) {
+                            Get.snackbar("Error ",
+                                "Password and ConfirmPassword do not Match",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white);
+                          } else {
+                            UserCredential? userCredential =
+                                await signUpController.signUpMethod(
+                                    name,
+                                    phone,
+                                    email,
+                                    password,
+                                    cpassword,
+                                    userDeviceToken);
+                            if (userCredential != null) {
+                              Get.snackbar("verification Email send ",
+                                  "Please Check your Email",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white);
+
+                              FirebaseAuth.instance.signOut();
+                              Get.offAll(() => const SigninScreen());
+                            }
+                          }
+                        },
                         child: const Text("Create an Account"))
                     : Container(
                         decoration: const BoxDecoration(

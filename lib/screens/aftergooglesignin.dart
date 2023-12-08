@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -33,6 +35,8 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
             child: GestureDetector(
                 onTap: () async {
                   GoogleSignIn googleSignIn = GoogleSignIn();
+                  FirebaseAuth _auth = FirebaseAuth.instance;
+                  await _auth.signOut();
                   await googleSignIn.signOut();
                   Get.offAll(() => const AfterSplash());
                 },

@@ -1,6 +1,11 @@
+// ignore_for_file: unused_local_variable
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
+import 'package:list_fyp_project/controller/sigin_controller.dart';
+import 'package:list_fyp_project/screens/aftergooglesignin.dart';
 
 import 'package:list_fyp_project/screens/appScreens/signup/signup.dart';
 
@@ -17,6 +22,11 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
+  final SignInController signInController = Get.put(SignInController());
+
+  TextEditingController userEmail = TextEditingController();
+  TextEditingController userPassword = TextEditingController();
+
   bool passwordVisible2 = true;
 
   @override
@@ -48,12 +58,13 @@ class _SigninScreenState extends State<SigninScreen> {
                 children: [
                   iskeyboardVisibile
                       ? const Image(
-                          image: AssetImage("assets/images/login.jpeg"))
+                          image: AssetImage("assets/images/login.png"))
                       : applogowidget(),
                   const SizedBox(
                     height: 30,
                   ),
                   TextFormField(
+                    controller: userEmail,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Pleas Enter Email";
@@ -85,6 +96,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
+                    controller: userPassword,
                     obscureText: passwordVisible2,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -142,7 +154,42 @@ class _SigninScreenState extends State<SigninScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 255, 136, 0),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        String email = userEmail.text.trim();
+                        String password2 = userPassword.text.trim();
+
+                        if (email == "" || password2 == "") {
+                          Get.snackbar("Error", "Missing Creditials",
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.red,
+                              colorText: Colors.white);
+                        } else {
+                          UserCredential? userCredential =
+                              await signInController.signInMethod(
+                                  email, password2);
+
+                          if (userCredential != null) {
+                            if (userCredential.user!.emailVerified) {
+                              Get.snackbar("Success", "login Success",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white);
+                              Get.offAll(() => const AfterGoogleSignIn());
+                            } else {
+                              Get.snackbar("Error",
+                                  "Please verifiy your email before login",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white);
+                            }
+                          } else {
+                            Get.snackbar("Error", "Please try again",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white);
+                          }
+                        }
+                      },
                       child: "Log in"
                           .text
                           .color(Colors.white)
