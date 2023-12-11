@@ -38,7 +38,7 @@ class UserModel {
       "street": street,
       "useraddress": useraddress,
       "isadmin": isAdmin,
-      "isactive": isActive,
+      "isActive": isActive,
       "createdon": createdOn,
     };
   }

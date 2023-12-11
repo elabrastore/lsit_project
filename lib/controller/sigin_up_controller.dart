@@ -5,11 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:list_fyp_project/controller/get_device_token_cotroller.dart';
 import 'package:list_fyp_project/models/usermodel.dart';
 
 class SignUpController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final GetDeviceTokenController getDeviceTokenController =
+      Get.put(GetDeviceTokenController());
 
   var isPasswordVisibile = false.obs;
 
@@ -24,6 +27,7 @@ class SignUpController extends GetxController {
     try {
       //loading is start in create users
       EasyLoading.show(status: " Wait a seconds");
+
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
               email: userEmail, password: userPasswrod);

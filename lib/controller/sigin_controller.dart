@@ -23,7 +23,6 @@ class SignInController extends GetxController {
           email: userEmail, password: userPassword);
 
       // send email verification to users
-      await userCredential.user!.sendEmailVerification();
 
       // add data in database
 

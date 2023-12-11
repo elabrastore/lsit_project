@@ -1,11 +1,15 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, unnecessary_null_comparison
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
+import 'package:list_fyp_project/controller/get_user_dataController.dart';
+
 import 'package:list_fyp_project/controller/sigin_controller.dart';
 import 'package:list_fyp_project/screens/aftergooglesignin.dart';
+import 'package:list_fyp_project/screens/appScreens/adminScreen/admin_screen.dart';
+import 'package:list_fyp_project/screens/appScreens/forget_password/forgetpassword.dart';
 
 import 'package:list_fyp_project/screens/appScreens/signup/signup.dart';
 
@@ -23,6 +27,8 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   final SignInController signInController = Get.put(SignInController());
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
 
   TextEditingController userEmail = TextEditingController();
   TextEditingController userPassword = TextEditingController();
@@ -139,7 +145,9 @@ class _SigninScreenState extends State<SigninScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(() => const ForgetPassword());
+                      },
                       child: "Forget Password"
                           .text
                           .color(const Color.fromARGB(255, 255, 0, 0))
@@ -158,7 +166,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         String email = userEmail.text.trim();
                         String password2 = userPassword.text.trim();
 
-                        if (email == "" || password2 == "") {
+                        if (email.isEmpty || password2.isEmpty) {
                           Get.snackbar("Error", "Missing Creditials",
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: Colors.red,
@@ -168,13 +176,26 @@ class _SigninScreenState extends State<SigninScreen> {
                               await signInController.signInMethod(
                                   email, password2);
 
+                          var userData = await getUserDataController
+                              .getUserdata(userCredential!.user!.uid);
+
                           if (userCredential != null) {
                             if (userCredential.user!.emailVerified) {
-                              Get.snackbar("Success", "login Success",
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: Colors.red,
-                                  colorText: Colors.white);
-                              Get.offAll(() => const AfterGoogleSignIn());
+                              if (userData[0]["isadmin"] == true) {
+                                Get.offAll(() => const AdminScreen());
+                                Get.snackbar(
+                                    "Success Admin Pannel", "login Success",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white);
+                              } else {
+                                Get.offAll(() => const AfterGoogleSignIn());
+                                Get.snackbar(
+                                    "Success User Login", "login Success",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white);
+                              }
                             } else {
                               Get.snackbar("Error",
                                   "Please verifiy your email before login",
