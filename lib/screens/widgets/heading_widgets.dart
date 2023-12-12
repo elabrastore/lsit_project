@@ -1,68 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:velocity_x/velocity_x.dart';
 
-class HeadingWidgets extends StatefulWidget {
-  const HeadingWidgets({super.key});
+class HeadingWidget extends StatelessWidget {
+  final String headingTitle;
+  final String headingSubTitle;
+  final VoidCallback onTap;
+  final String buttonText;
+  const HeadingWidget({
+    super.key,
+    required this.headingTitle,
+    required this.headingSubTitle,
+    required this.onTap,
+    required this.buttonText,
+  });
 
-  @override
-  State<HeadingWidgets> createState() => _HeadingWidgetsState();
-}
-
-class _HeadingWidgetsState extends State<HeadingWidgets> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10.0),
+      margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(5.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                "Categories"
-                    .text
-                    .fontWeight(FontWeight.bold)
-                    .color(Colors.black)
-                    .size(17)
-                    .make(),
-                "Low Budgets"
-                    .text
-                    .fontWeight(FontWeight.w500)
-                    .size(12)
-                    .color(Colors.grey)
-                    .make(),
+                Text(
+                  headingTitle,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade800,
+                  ),
+                ),
+                Text(
+                  headingSubTitle,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12.0,
+                    color: Colors.grey,
+                  ),
+                ),
               ],
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                    color: const Color.fromARGB(
-                      255,
-                      255,
-                      136,
-                      0,
-                    ),
-                    width: 1.5),
+            GestureDetector(
+              onTap: onTap,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  border: Border.all(
+                    color: Colors.orange,
+                    width: 1.5,
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    buttonText,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12.0,
+                        color: Colors.orange),
+                  ),
+                ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: "See more"
-                    .text
-                    .fontWeight(FontWeight.bold)
-                    .color(
-                      const Color.fromARGB(
-                        255,
-                        255,
-                        136,
-                        0,
-                      ),
-                    )
-                    .make(),
-              ),
-            )
+            ),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:list_fyp_project/screens/constant/image.dart';
 import 'package:list_fyp_project/screens/widgets/bannercustom.dart';
+import 'package:list_fyp_project/screens/widgets/catagorywidget.dart';
 import 'package:list_fyp_project/screens/widgets/customDrawer.dart';
 import 'package:list_fyp_project/screens/widgets/heading_widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -39,8 +40,23 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
           child: Container(
             child: Column(
               children: [
-                BannerWidget(),
-                HeadingWidgets(),
+                const BannerWidget(),
+                const SizedBox(
+                  height: 10,
+                ),
+                HeadingWidget(
+                  buttonText: "Show More",
+                  headingTitle: "Catagories",
+                  headingSubTitle: "low Budgets",
+                  onTap: () {},
+                ),
+                const CategoriesWidget(),
+                HeadingWidget(
+                  buttonText: "Show More",
+                  headingTitle: "Flash Sale",
+                  headingSubTitle: "Mega Sale in E-labra",
+                  onTap: () {},
+                ),
               ],
             ),
           ),

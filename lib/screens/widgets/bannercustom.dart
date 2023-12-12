@@ -37,7 +37,8 @@ class _BannerWidgetState extends State<BannerWidget> {
                           child: CupertinoActivityIndicator(),
                         ),
                       ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                 )
