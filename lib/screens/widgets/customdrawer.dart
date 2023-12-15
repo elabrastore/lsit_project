@@ -82,8 +82,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: "contact".text.make(),
-                leading: Icon(Icons.help_center),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(Icons.help_center),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
             Padding(

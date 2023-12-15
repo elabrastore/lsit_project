@@ -15,27 +15,27 @@ class CategoriesWidget extends StatelessWidget {
       future: FirebaseFirestore.instance.collection('catageries').get(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text("Error"),
           );
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(
+          return SizedBox(
             height: Get.height / 5,
-            child: Center(
+            child: const Center(
               child: CupertinoActivityIndicator(),
             ),
           );
         }
 
         if (snapshot.data!.docs.isEmpty) {
-          return Center(
+          return const Center(
             child: Text("No category found!"),
           );
         }
 
         if (snapshot.data != null) {
-          return Container(
+          return SizedBox(
             height: Get.height / 5.0,
             child: ListView.builder(
               itemCount: snapshot.data!.docs.length,
@@ -54,19 +54,19 @@ class CategoriesWidget extends StatelessWidget {
                     GestureDetector(
                       onTap: () {},
                       child: Padding(
-                        padding: EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
                           child: FillImageCard(
                             borderRadius: 20.0,
                             width: Get.width / 4.0,
-                            heightImage: Get.height / 12,
+                            heightImage: Get.height / 10,
                             imageProvider: CachedNetworkImageProvider(
                               categoriesModel.catagoryImag,
                             ),
                             title: Center(
                               child: Text(
                                 categoriesModel.catagoryName,
-                                style: TextStyle(fontSize: 12.0),
+                                style: const TextStyle(fontSize: 12.0),
                               ),
                             ),
                           ),

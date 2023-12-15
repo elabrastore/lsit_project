@@ -158,7 +158,82 @@ class _SigninScreenState extends State<SigninScreen> {
                   SizedBox(
                     width: context.screenWidth - 50,
                     height: 50,
-                    child: ElevatedButton(
+                    child: TextButton(
+                      child: const Text(
+                        "SIGN IN",
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 255, 136, 0)),
+                      ),
+                      onPressed: () async {
+                        String email = userEmail.text.trim();
+                        String password = userPassword.text.trim();
+
+                        if (email.isEmpty || password.isEmpty) {
+                          Get.snackbar(
+                            "Error",
+                            "Please enter all details",
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 136, 0),
+                            colorText: Colors.white,
+                          );
+                        } else {
+                          UserCredential? userCredential =
+                              await signInController.signInMethod(
+                                  email, password);
+
+                          var userData = await getUserDataController
+                              .getUserdata(userCredential!.user!.uid);
+
+                          if (userCredential != null) {
+                            if (userCredential.user!.emailVerified) {
+                              //
+                              if (userData[0]['isAdmin'] == true) {
+                                Get.snackbar(
+                                  "Success Admin Login",
+                                  "login Successfully!",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 255, 136, 0),
+                                  colorText: Colors.white,
+                                );
+                                Get.offAll(() => AdminScreen());
+                              } else {
+                                Get.offAll(() => AfterGoogleSignIn());
+                                Get.snackbar(
+                                  "Success User Login",
+                                  "login Successfully!",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 255, 136, 0),
+                                  colorText: Colors.white,
+                                );
+                              }
+                            } else {
+                              Get.snackbar(
+                                "Error",
+                                "Please verify your email before login",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor:
+                                    const Color.fromARGB(255, 255, 136, 0),
+                                colorText: Colors.white,
+                              );
+                            }
+                          } else {
+                            Get.snackbar(
+                              "Error",
+                              "Please try again",
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 255, 136, 0),
+                              colorText: Colors.white,
+                            );
+                          }
+                        }
+                      },
+                    ),
+
+                    /* ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 255, 136, 0),
                       ),
@@ -216,7 +291,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           .color(Colors.white)
                           .minFontSize(16)
                           .make(),
-                    ),
+                    ),*/
                   ),
                   10.heightBox,
                   Row(

@@ -31,7 +31,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                       imageUrl: imageUrls,
                       fit: BoxFit.cover,
                       width: Get.width - 10,
-                      placeholder: (context, url) => ColoredBox(
+                      placeholder: (context, url) => const ColoredBox(
                         color: Colors.white,
                         child: Center(
                           child: CupertinoActivityIndicator(),
