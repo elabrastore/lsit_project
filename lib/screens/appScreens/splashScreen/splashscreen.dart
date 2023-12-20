@@ -28,6 +28,7 @@ class _SplashscreenState extends State<Splashscreen> {
 
     Timer(const Duration(seconds: 3), () {
       loggin(context);
+      // Get.offAll(() => const AfterSplash());
     });
   }
 
@@ -36,7 +37,7 @@ class _SplashscreenState extends State<Splashscreen> {
       final GetUserDataController getUserDataController =
           Get.put(GetUserDataController());
       var userdata = await getUserDataController.getUserdata(user!.uid);
-      if (userdata[0]["isadmin"] == true) {
+      if (userdata[0]["isAdmin"] == true) {
         Get.offAll(() => const AdminScreen());
       } else {
         Get.offAll(() => const AfterGoogleSignIn());

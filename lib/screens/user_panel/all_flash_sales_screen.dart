@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 import 'package:list_fyp_project/models/product-model.dart';
 import 'package:list_fyp_project/screens/constant/image.dart';
-import 'package:list_fyp_project/screens/user_panel/single_Categories_product_screen.dart';
+
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../models/catagory_model.dart';
+import 'product_detail_screen.dart';
 
 class AllFlashsaleProductScreen extends StatefulWidget {
   const AllFlashsaleProductScreen({super.key});
@@ -102,7 +102,11 @@ class _AllFlashsaleProductScreenState extends State<AllFlashsaleProductScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => ProductDetailScreen(
+                              productModel: productModel,
+                            ));
+                      },
                       child: Container(
                         child: FillImageCard(
                           borderRadius: 20.0,

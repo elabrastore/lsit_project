@@ -10,32 +10,26 @@ class SignInController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  var isPasswordVisibile = false.obs;
-
   Future<UserCredential?> signInMethod(
-    String userEmail,
-    String userPassword,
-  ) async {
+      String userEmail, String userPassword) async {
     try {
-      //loading is start in create users
-      EasyLoading.show(status: " Wait a seconds");
+      EasyLoading.show(status: "Please wait");
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-          email: userEmail, password: userPassword);
+        email: userEmail,
+        password: userPassword,
+      );
 
-      // send email verification to users
-
-      // add data in database
-
-      //loading is created then loading end
       EasyLoading.dismiss();
-
       return userCredential;
     } on FirebaseAuthException catch (e) {
       EasyLoading.dismiss();
-      Get.snackbar("Error", "$e",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar(
+        "Error",
+        "$e",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 }

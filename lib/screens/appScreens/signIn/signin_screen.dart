@@ -34,6 +34,7 @@ class _SigninScreenState extends State<SigninScreen> {
   TextEditingController userPassword = TextEditingController();
 
   bool passwordVisible2 = true;
+  final formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,7 @@ class _SigninScreenState extends State<SigninScreen> {
         ),
         body: ListView(children: [
           Form(
+            key: formkey,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
@@ -165,6 +167,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             TextStyle(color: Color.fromARGB(255, 255, 136, 0)),
                       ),
                       onPressed: () async {
+                        if (formkey.currentState!.validate()) {}
                         String email = userEmail.text.trim();
                         String password = userPassword.text.trim();
 
@@ -197,9 +200,9 @@ class _SigninScreenState extends State<SigninScreen> {
                                       const Color.fromARGB(255, 255, 136, 0),
                                   colorText: Colors.white,
                                 );
-                                Get.offAll(() => AdminScreen());
+                                Get.offAll(() => const AdminScreen());
                               } else {
-                                Get.offAll(() => AfterGoogleSignIn());
+                                Get.offAll(() => const AfterGoogleSignIn());
                                 Get.snackbar(
                                   "Success User Login",
                                   "login Successfully!",

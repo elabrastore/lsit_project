@@ -13,6 +13,8 @@ import 'package:list_fyp_project/screens/widgets/flash_sale.dart';
 import 'package:list_fyp_project/screens/widgets/heading_widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import 'user_panel/CardScreen.dart';
+
 class AfterGoogleSignIn extends StatefulWidget {
   const AfterGoogleSignIn({super.key});
 
@@ -25,6 +27,17 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Get.to(() => const CardSceen());
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(Icons.add_shopping_cart_outlined),
+              ),
+            )
+          ],
           iconTheme: const IconThemeData(color: Colors.white),
           flexibleSpace: Container(
             decoration: const BoxDecoration(

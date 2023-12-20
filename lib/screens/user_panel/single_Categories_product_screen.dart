@@ -6,10 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
-import 'package:list_fyp_project/models/catagory_model.dart';
+
 import 'package:list_fyp_project/models/product-model.dart';
 import 'package:list_fyp_project/screens/constant/image.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import 'product_detail_screen.dart';
 
 class AllsingleCategoriesproductScreen extends StatefulWidget {
   String categoryId;
@@ -34,7 +36,8 @@ class _AllcategoriesScreenState
         ),
         title: Align(
           alignment: Alignment.center,
-          child: widget.categoryId.text
+          child: "Products"
+              .text
               .fontWeight(FontWeight.bold)
               .color(Colors.white)
               .make(),
@@ -52,16 +55,16 @@ class _AllcategoriesScreenState
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(
+            return SizedBox(
               height: Get.height / 5,
-              child: Center(
+              child: const Center(
                 child: CupertinoActivityIndicator(),
               ),
             );
           }
 
           if (snapshot.data!.docs.isEmpty) {
-            return Center(
+            return const Center(
               child: Text("No category found!"),
             );
           }
@@ -71,7 +74,7 @@ class _AllcategoriesScreenState
               itemCount: snapshot.data!.docs.length,
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 3,
                   crossAxisSpacing: 3,
@@ -102,9 +105,13 @@ class _AllcategoriesScreenState
                 return Row(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => ProductDetailScreen(
+                              productModel: productModel,
+                            ));
+                      },
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Container(
                           child: FillImageCard(
                             borderRadius: 20.0,
@@ -116,7 +123,7 @@ class _AllcategoriesScreenState
                             title: Center(
                               child: Text(
                                 productModel.productName,
-                                style: TextStyle(fontSize: 12.0),
+                                style: const TextStyle(fontSize: 12.0),
                               ),
                             ),
                           ),

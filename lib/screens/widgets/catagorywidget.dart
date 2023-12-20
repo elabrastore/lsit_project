@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 import 'package:list_fyp_project/models/catagory_model.dart';
+import 'package:list_fyp_project/screens/user_panel/single_Categories_product_screen.dart';
 
 class CategoriesWidget extends StatelessWidget {
   const CategoriesWidget({super.key});
@@ -52,7 +53,11 @@ class CategoriesWidget extends StatelessWidget {
                 return Row(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => AllsingleCategoriesproductScreen(
+                              categoryId: categoriesModel.categoryId,
+                            ));
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Container(

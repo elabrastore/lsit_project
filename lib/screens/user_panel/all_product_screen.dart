@@ -8,6 +8,7 @@ import 'package:image_card/image_card.dart';
 
 import 'package:list_fyp_project/models/product-model.dart';
 import 'package:list_fyp_project/screens/constant/image.dart';
+import 'package:list_fyp_project/screens/user_panel/product_detail_screen.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
@@ -96,7 +97,11 @@ class AllProductScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => ProductDetailScreen(
+                              productModel: productModel,
+                            ));
+                      },
                       child: Container(
                         child: FillImageCard(
                           borderRadius: 20.0,

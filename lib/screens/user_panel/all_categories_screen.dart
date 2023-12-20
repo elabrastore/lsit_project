@@ -47,14 +47,14 @@ class _AllcategoriesScreenState extends State<AllcategoriesScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
               height: Get.height / 5,
-              child: Center(
+              child: const Center(
                 child: CupertinoActivityIndicator(),
               ),
             );
           }
 
           if (snapshot.data!.docs.isEmpty) {
-            return Center(
+            return const Center(
               child: Text("No category found!"),
             );
           }

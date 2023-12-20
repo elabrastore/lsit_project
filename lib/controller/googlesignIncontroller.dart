@@ -54,7 +54,7 @@ class GoogleSignInController extends GetxController {
               createdOn: DateTime.now());
 
           await FirebaseFirestore.instance
-              .collection("user")
+              .collection("users")
               .doc(user.uid)
               .set(userModel.toMap());
 

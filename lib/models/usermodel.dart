@@ -34,12 +34,12 @@ class UserModel {
       "phone": phone,
       "userimage": userimage,
       "userDevicetoken": userDevicetoken,
-      "country": country,
       "street": street,
+      "country": country,
       "useraddress": useraddress,
-      "isadmin": isAdmin,
+      "isAdmin": isAdmin, // Correct field name
       "isActive": isActive,
-      "createdon": createdOn,
+      "createdOn": createdOn,
     };
   }
 

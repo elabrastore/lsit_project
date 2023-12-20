@@ -55,8 +55,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: "Home".text.make(),
-                leading: Icon(Icons.home),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(Icons.home),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
             Padding(
@@ -64,8 +64,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: "Products".text.make(),
-                leading: Icon(Icons.production_quantity_limits),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(Icons.production_quantity_limits),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
             Padding(
@@ -73,8 +73,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: "orders".text.make(),
-                leading: Icon(Icons.shopping_bag),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(Icons.shopping_bag),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
             Padding(
@@ -98,7 +98,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
                 },
                 titleAlignment: ListTileTitleAlignment.center,
                 title: "LogOut".text.make(),
-                leading: Icon(Icons.logout),
+                leading: const Icon(Icons.logout),
               ),
             ),
           ],

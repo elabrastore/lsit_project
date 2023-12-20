@@ -14,8 +14,6 @@ class SignUpController extends GetxController {
   final GetDeviceTokenController getDeviceTokenController =
       Get.put(GetDeviceTokenController());
 
-  var isPasswordVisibile = false.obs;
-
   Future<UserCredential?> signUpMethod(
     String userName,
     String userPhone,
