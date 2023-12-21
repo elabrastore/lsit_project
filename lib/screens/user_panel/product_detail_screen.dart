@@ -2,12 +2,18 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:list_fyp_project/models/product-model.dart';
 import 'package:list_fyp_project/screens/constant/image.dart';
+import 'package:list_fyp_project/screens/user_panel/cardScreen.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../../models/Card_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   ProductModel productModel;
@@ -18,10 +24,71 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
+  Future<void> checkProduct(
+      {required String uId, int Quantityincrement = 1}) async {
+    final DocumentReference documentReference = FirebaseFirestore.instance
+        .collection("card")
+        .doc(uId)
+        .collection("cardorders")
+        .doc(widget.productModel.productId.toString());
+    DocumentSnapshot snapshot = await documentReference.get();
+
+    if (snapshot.exists) {
+      int currentQuantity = snapshot["productQuantity"];
+      int updateQuantity = currentQuantity + Quantityincrement;
+      double totalPrice = double.parse(widget.productModel.isSale == true
+              ? widget.productModel.salePrice
+              : widget.productModel.fullPrice) *
+          updateQuantity;
+
+      await documentReference.update(
+          {"productQuantity": updateQuantity, "productTotalPrice": totalPrice});
+
+      print("product exist in card");
+    } else {
+      await FirebaseFirestore.instance
+          .collection("card")
+          .doc(uId)
+          .set({"uId": uId, "createdAt": DateTime.now()});
+
+      CartModel cartModel = CartModel(
+          productId: widget.productModel.productId,
+          categoryId: widget.productModel.categoryId,
+          productName: widget.productModel.productName,
+          categoryName: widget.productModel.categoryName,
+          salePrice: widget.productModel.salePrice,
+          fullPrice: widget.productModel.fullPrice,
+          productImages: widget.productModel.productImages,
+          deliveryTime: widget.productModel.deliveryTime,
+          isSale: widget.productModel.isSale,
+          productDescription: widget.productModel.productDescription,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          productQuantity: 1,
+          productTotalPrice: double.parse(widget.productModel.isSale == true
+              ? widget.productModel.salePrice
+              : widget.productModel.fullPrice));
+      await documentReference.set(cartModel.toMap());
+      print("product added");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Get.to(() => CardSceen());
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(Icons.add_shopping_cart_outlined),
+            ),
+          )
+        ],
         iconTheme: const IconThemeData(color: Colors.white),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
@@ -134,7 +201,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               backgroundColor: Colors.orange,
                               fixedSize: const Size(155, 50),
                             ),
-                            onPressed: () {},
+                            onPressed: () async {
+                              await checkProduct(uId: user!.uid);
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

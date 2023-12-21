@@ -30,10 +30,10 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
           actions: [
             GestureDetector(
               onTap: () {
-                Get.to(() => const CardSceen());
+                Get.to(() => CardSceen());
               },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Icon(Icons.add_shopping_cart_outlined),
               ),
             )
