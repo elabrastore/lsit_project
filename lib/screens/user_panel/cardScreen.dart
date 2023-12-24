@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 
 import 'package:list_fyp_project/models/Card_model.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../controller/cardPrice_controller.dart';
 import '../constant/image.dart';
 
 class CardSceen extends StatefulWidget {
@@ -21,13 +23,15 @@ class CardSceen extends StatefulWidget {
 
 class _CardSceenState extends State<CardSceen> {
   User? user = FirebaseAuth.instance.currentUser;
+  final ProductPriceController productPriceController =
+      Get.put(ProductPriceController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage(backgruond1), fit: BoxFit.fill)),
         ),
@@ -40,12 +44,12 @@ class _CardSceenState extends State<CardSceen> {
               .make(),
         ),
       ),
-      body: FutureBuilder(
-        future: FirebaseFirestore.instance
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
             .collection('card')
             .doc(user!.uid)
             .collection("cardorders")
-            .get(),
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Center(
@@ -90,29 +94,103 @@ class _CardSceenState extends State<CardSceen> {
                     updatedAt: productsData['updatedAt'],
                     productQuantity: productsData["productQuantity"],
                     productTotalPrice: productsData["productTotalPrice"]);
-                return Card(
-                  elevation: 4,
-                  child: ListTile(
-                    title: cartModel.productName.text.make(),
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(cartModel.productImages[0]),
-                      backgroundColor: Colors.orange,
-                    ),
-                    subtitle: Row(
-                      children: [
-                        cartModel.productTotalPrice.toString().text.make(),
-                        CircleAvatar(
-                          backgroundColor: Colors.orange,
-                          child: "+".text.white.make(),
-                          radius: 14,
-                        ),
-                        8.widthBox,
-                        CircleAvatar(
-                          backgroundColor: Colors.orange,
-                          child: "-".text.white.bold.make(),
-                          radius: 14,
-                        )
-                      ],
+
+                // Fetch value from cardprice controller (Calculate value)
+                productPriceController.fetchProductPrice();
+                return SwipeActionCell(
+                  key: ObjectKey(cartModel.productId),
+                  trailingActions: [
+                    SwipeAction(
+                        title: "Remove",
+                        forceAlignmentToBoundary: true,
+                        performsFirstActionWithFullSwipe: true,
+                        onTap: (CompletionHandler handler) async {
+                          print("Remove");
+
+                          await FirebaseFirestore.instance
+                              .collection("card")
+                              .doc(user!.uid)
+                              .collection("cardorders")
+                              .doc(cartModel.productId)
+                              .delete();
+                        })
+                  ],
+                  child: Card(
+                    elevation: 4,
+                    child: ListTile(
+                      title: Column(
+                        children: [
+                          "Product Quantiy: ${cartModel.productQuantity}"
+                              .text
+                              .make(),
+                          cartModel.productName.text.make(),
+                        ],
+                      ),
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(cartModel.productImages[0]),
+                        backgroundColor: Colors.orange,
+                      ),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: "${cartModel.productTotalPrice} : PKR"
+                                .toString()
+                                .text
+                                .make(),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              if (cartModel.productQuantity > 1) {
+                                await FirebaseFirestore.instance
+                                    .collection("card")
+                                    .doc(user!.uid)
+                                    .collection("cardorders")
+                                    .doc(cartModel.productId)
+                                    .update({
+                                  "productQuantity":
+                                      cartModel.productQuantity - 1,
+                                  "productTotalPrice":
+                                      (double.parse(cartModel.fullPrice) *
+                                          (cartModel.productQuantity - 1))
+                                });
+                              }
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.orange,
+                              child: "-".text.white.make(),
+                              radius: 14,
+                            ),
+                          ),
+                          8.widthBox,
+                          GestureDetector(
+                            onTap: () async {
+                              if (cartModel.productQuantity > 0) {
+                                await FirebaseFirestore.instance
+                                    .collection("card")
+                                    .doc(user!.uid)
+                                    .collection("cardorders")
+                                    .doc(cartModel.productId)
+                                    .update({
+                                  "productQuantity":
+                                      cartModel.productQuantity + 1,
+                                  "productTotalPrice":
+                                      double.parse(cartModel.fullPrice) +
+                                          double.parse(cartModel.fullPrice) *
+                                              (cartModel.productQuantity)
+                                });
+                              }
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.orange,
+                              child: "+".text.white.bold.make(),
+                              radius: 14,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -132,7 +210,14 @@ class _CardSceenState extends State<CardSceen> {
             children: [
               " Total".text.size(16).bold.make(),
               15.widthBox,
-              "RS 12000".text.size(16).bold.make(),
+              Obx(
+                () =>
+                    "${productPriceController.totalPrice.toStringAsFixed(1)} PKR"
+                        .text
+                        .size(16)
+                        .bold
+                        .make(),
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
