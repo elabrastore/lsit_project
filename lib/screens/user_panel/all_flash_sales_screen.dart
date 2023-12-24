@@ -107,19 +107,17 @@ class _AllFlashsaleProductScreenState extends State<AllFlashsaleProductScreen> {
                               productModel: productModel,
                             ));
                       },
-                      child: Container(
-                        child: FillImageCard(
-                          borderRadius: 20.0,
-                          width: Get.width / 2.4,
-                          heightImage: Get.height / 8,
-                          imageProvider: CachedNetworkImageProvider(
-                            productModel.productImages[0],
-                          ),
-                          title: Center(
-                            child: Text(
-                              productModel.productName,
-                              style: const TextStyle(fontSize: 12.0),
-                            ),
+                      child: FillImageCard(
+                        borderRadius: 20.0,
+                        width: Get.width / 2.4,
+                        heightImage: Get.height / 8,
+                        imageProvider: CachedNetworkImageProvider(
+                          productModel.productImages[0],
+                        ),
+                        title: Center(
+                          child: Text(
+                            productModel.productName,
+                            style: const TextStyle(fontSize: 12.0),
                           ),
                         ),
                       ),

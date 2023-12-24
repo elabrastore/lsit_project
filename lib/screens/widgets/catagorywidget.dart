@@ -60,19 +60,17 @@ class CategoriesWidget extends StatelessWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          child: FillImageCard(
-                            borderRadius: 20.0,
-                            width: Get.width / 4.0,
-                            heightImage: Get.height / 10,
-                            imageProvider: CachedNetworkImageProvider(
-                              categoriesModel.catagoryImag,
-                            ),
-                            title: Center(
-                              child: Text(
-                                categoriesModel.catagoryName,
-                                style: const TextStyle(fontSize: 12.0),
-                              ),
+                        child: FillImageCard(
+                          borderRadius: 20.0,
+                          width: Get.width / 4.0,
+                          heightImage: Get.height / 10,
+                          imageProvider: CachedNetworkImageProvider(
+                            categoriesModel.catagoryImag,
+                          ),
+                          title: Center(
+                            child: Text(
+                              categoriesModel.catagoryName,
+                              style: const TextStyle(fontSize: 12.0),
                             ),
                           ),
                         ),

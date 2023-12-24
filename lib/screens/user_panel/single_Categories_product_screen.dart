@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, must_be_immutable
+// ignore_for_file: file_names, must_be_immutable, non_constant_identifier_names
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -112,19 +112,17 @@ class _AllcategoriesScreenState
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          child: FillImageCard(
-                            borderRadius: 20.0,
-                            width: Get.width / 2.4,
-                            heightImage: Get.height / 10,
-                            imageProvider: CachedNetworkImageProvider(
-                              productModel.productImages[0],
-                            ),
-                            title: Center(
-                              child: Text(
-                                productModel.productName,
-                                style: const TextStyle(fontSize: 12.0),
-                              ),
+                        child: FillImageCard(
+                          borderRadius: 20.0,
+                          width: Get.width / 2.4,
+                          heightImage: Get.height / 10,
+                          imageProvider: CachedNetworkImageProvider(
+                            productModel.productImages[0],
+                          ),
+                          title: Center(
+                            child: Text(
+                              productModel.productName,
+                              style: const TextStyle(fontSize: 12.0),
                             ),
                           ),
                         ),

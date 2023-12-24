@@ -30,7 +30,7 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
           actions: [
             GestureDetector(
               onTap: () {
-                Get.to(() => CardSceen());
+                Get.to(() => const CardSceen());
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),

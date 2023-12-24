@@ -86,19 +86,17 @@ class _AllcategoriesScreenState extends State<AllcategoriesScreen> {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          child: FillImageCard(
-                            borderRadius: 20.0,
-                            width: Get.width / 2.4,
-                            heightImage: Get.height / 10,
-                            imageProvider: CachedNetworkImageProvider(
-                              categoriesModel.catagoryImag,
-                            ),
-                            title: Center(
-                              child: Text(
-                                categoriesModel.catagoryName,
-                                style: const TextStyle(fontSize: 12.0),
-                              ),
+                        child: FillImageCard(
+                          borderRadius: 20.0,
+                          width: Get.width / 2.4,
+                          heightImage: Get.height / 10,
+                          imageProvider: CachedNetworkImageProvider(
+                            categoriesModel.catagoryImag,
+                          ),
+                          title: Center(
+                            child: Text(
+                              categoriesModel.catagoryName,
+                              style: const TextStyle(fontSize: 12.0),
                             ),
                           ),
                         ),
