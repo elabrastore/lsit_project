@@ -8,6 +8,8 @@ import 'package:list_fyp_project/screens/appScreens/homescreen.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
+import '../user_panel/orderScreen.dart';
+
 class DrawerCustom extends StatefulWidget {
   const DrawerCustom({super.key});
 
@@ -75,6 +77,10 @@ class _DrawerCustomState extends State<DrawerCustom> {
                 title: "orders".text.make(),
                 leading: const Icon(Icons.shopping_bag),
                 trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Get.back();
+                  Get.to(() => const OrderScreen());
+                },
               ),
             ),
             Padding(

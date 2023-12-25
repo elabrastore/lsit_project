@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, non_constant_identifier_names
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +23,55 @@ class _SignupState extends State<Signup> {
   bool? ischeck = false;
   bool passwordVisible = true;
   bool confirmpassVisible = true;
+
+  //form validation
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
+  String? _validationEmail(value) {
+    if (value == null || value.isEmpty) {
+      return "Please enter email";
+    }
+    RegExp emailRegExp = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+    if (!emailRegExp.hasMatch(value)) {
+      return "Please Enter a valid Email";
+    }
+
+    return null;
+  }
+
+  String? _validatePhoneNumber(value) {
+    // Simple validation for a phone number starting with +92
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    } else if (!value.startsWith('+92')) {
+      return 'Phone number must start with +92';
+    } else if (value.length != 13) {
+      return "Please enter valid number";
+    }
+    return null; // Validation passed
+  }
+
+  String? _validatePassword(value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    } else if (value.length < 8) {
+      return 'Password must be at least 8 characters long';
+    } else if (!RegExp(
+            r'^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+        .hasMatch(value)) {
+      return 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character';
+    }
+    return null;
+  }
+
+  String? _validateUsername(value) {
+    if (value == null || value.isEmpty) {
+      return 'Username is required';
+    }
+    return null;
+  }
 
   TextEditingController username = TextEditingController();
   TextEditingController phone1 = TextEditingController();
@@ -51,6 +100,7 @@ class _SignupState extends State<Signup> {
       ),
       body: ListView(children: [
         Form(
+          key: _formkey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -59,14 +109,9 @@ class _SignupState extends State<Signup> {
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
                   controller: username,
+                  textInputAction: TextInputAction.next,
                   autofocus: false,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please Enter User Name";
-                    } else {
-                      return "Please Enter User Name";
-                    }
-                  },
+                  validator: _validateUsername,
                   decoration: const InputDecoration(
                       labelText: "User Name",
                       labelStyle:
@@ -93,19 +138,15 @@ class _SignupState extends State<Signup> {
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
                   controller: phone1,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.phone,
                   autofocus: false,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please Enter Phone No";
-                    } else {
-                      return "Please Enter Valid Phone No";
-                    }
-                  },
+                  validator: _validatePhoneNumber,
                   decoration: const InputDecoration(
                       labelText: "Phone",
                       labelStyle:
                           TextStyle(color: Color.fromARGB(255, 255, 136, 0)),
-                      hintText: "0306********507",
+                      hintText: "+92306********507",
                       isDense: true,
                       prefix: Icon(
                         Icons.phone,
@@ -127,15 +168,9 @@ class _SignupState extends State<Signup> {
                 padding: const EdgeInsets.all(15.0),
                 child: TextFormField(
                   autofocus: false,
+                  textInputAction: TextInputAction.next,
                   controller: email2,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "pleas enter Email";
-                    } else if (!value.contains("@gmail.com")) {
-                      return "please enter valid email";
-                    }
-                    return null;
-                  },
+                  validator: _validationEmail,
                   decoration: const InputDecoration(
                       labelText: "Email",
                       labelStyle:
@@ -163,12 +198,8 @@ class _SignupState extends State<Signup> {
                 child: TextFormField(
                   controller: passwordT,
                   obscureText: passwordVisible,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "pleas enter Password";
-                    }
-                    return null;
-                  },
+                  validator: _validatePassword,
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                       labelText: "Password",
                       labelStyle: const TextStyle(
@@ -207,12 +238,8 @@ class _SignupState extends State<Signup> {
                 child: TextFormField(
                   controller: conformPassword,
                   obscureText: confirmpassVisible,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "pleas enter ConformPassword";
-                    }
-                    return null;
-                  },
+                  textInputAction: TextInputAction.next,
+                  validator: _validatePassword,
                   decoration: InputDecoration(
                       labelText: "ConformPassword",
                       labelStyle: const TextStyle(
@@ -319,46 +346,48 @@ class _SignupState extends State<Signup> {
                                 ? const Color.fromARGB(255, 255, 136, 0)
                                 : Colors.grey),
                         onPressed: () async {
-                          String name = username.text.trim();
-                          String phone = phone1.text.trim();
-                          String email = email2.text.trim();
-                          String password = passwordT.text.trim();
-                          String cpassword = conformPassword.text.trim();
-                          String userDeviceToken = "";
+                          if (_formkey.currentState!.validate()) {
+                            String name = username.text.trim();
+                            String phone = phone1.text.trim();
+                            String email = email2.text.trim();
+                            String password = passwordT.text.trim();
+                            String cpassword = conformPassword.text.trim();
+                            String userDeviceToken = "";
 
-                          if (email == "" ||
-                              password == "" ||
-                              cpassword == "" ||
-                              name == "" ||
-                              phone == "") {
-                            Get.snackbar("Error", "Missing Creditials",
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: Colors.red,
-                                colorText: Colors.white);
-                          } else if (password != cpassword) {
-                            Get.snackbar("Error ",
-                                "Password and ConfirmPassword do not Match",
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: Colors.red,
-                                colorText: Colors.white);
-                          } else {
-                            UserCredential? userCredential =
-                                await signUpController.signUpMethod(
-                                    name,
-                                    phone,
-                                    email,
-                                    password,
-                                    cpassword,
-                                    userDeviceToken);
-                            if (userCredential != null) {
-                              Get.snackbar("verification Email send ",
-                                  "Please Check your Email",
+                            if (email == "" ||
+                                password == "" ||
+                                cpassword == "" ||
+                                name == "" ||
+                                phone == "") {
+                              Get.snackbar("Error", "Missing Creditials",
                                   snackPosition: SnackPosition.BOTTOM,
                                   backgroundColor: Colors.red,
                                   colorText: Colors.white);
+                            } else if (password != cpassword) {
+                              Get.snackbar("Error ",
+                                  "Password and ConfirmPassword do not Match",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white);
+                            } else {
+                              UserCredential? userCredential =
+                                  await signUpController.signUpMethod(
+                                      name,
+                                      phone,
+                                      email,
+                                      password,
+                                      cpassword,
+                                      userDeviceToken);
+                              if (userCredential != null) {
+                                Get.snackbar("verification Email send ",
+                                    "Please Check your Email",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white);
 
-                              FirebaseAuth.instance.signOut();
-                              Get.offAll(() => const SigninScreen());
+                                FirebaseAuth.instance.signOut();
+                                Get.offAll(() => const SigninScreen());
+                              }
                             }
                           }
                         },

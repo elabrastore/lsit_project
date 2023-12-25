@@ -1,5 +1,7 @@
 // ignore_for_file: unused_field, body_might_complete_normally_nullable
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,15 +23,66 @@ class SignInController extends GetxController {
 
       EasyLoading.dismiss();
       return userCredential;
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (ex) {
+      log(ex.toString());
       EasyLoading.dismiss();
       Get.snackbar(
         "Error",
-        "$e",
+        "Authentication failed. Please check your email and password.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return null; // Return null in case of authentication failure
+    } catch (e) {
+      log(e.toString());
+      EasyLoading.dismiss();
+      Get.snackbar(
+        "Error",
+        "An unexpected error occurred. Please try again later.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return null; // Return null in case of unexpected errors
+    }
+  }
+
+/*import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+
+class SignInController extends GetxController {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<UserCredential?> signInMethod(
+      String userEmail, String userPassword) async {
+    try {
+      EasyLoading.show(status: "Please wait");
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: userEmail,
+        password: userPassword,
+      );
+
+      EasyLoading.dismiss();
+      return userCredential;
+    } on FirebaseAuthException catch (ex) {
+      log(ex.toString());
+      EasyLoading.dismiss();
+      Get.snackbar(
+        "$ex",
+        "$ex",
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
     }
   }
+}
+*/
 }

@@ -34,7 +34,33 @@ class _SigninScreenState extends State<SigninScreen> {
   TextEditingController userPassword = TextEditingController();
 
   bool passwordVisible2 = true;
-  final formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  String? _validationEmail(value) {
+    if (value == null || value.isEmpty) {
+      return "Please enter email";
+    }
+    RegExp emailRegExp = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+    if (!emailRegExp.hasMatch(value)) {
+      return "Please Enter a valid Email";
+    }
+
+    return null;
+  }
+
+  String? _validatePassword(value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    } else if (value.length < 8) {
+      return 'Password must be at least 8 characters long';
+    } else if (!RegExp(
+            r'^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+        .hasMatch(value)) {
+      return 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +84,7 @@ class _SigninScreenState extends State<SigninScreen> {
         ),
         body: ListView(children: [
           Form(
-            key: formkey,
+            key: _formkey,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
@@ -73,14 +99,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   ),
                   TextFormField(
                     controller: userEmail,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Pleas Enter Email";
-                      } else if (!value.contains("@gmail.com")) {
-                        return "Please Enter Valid Email";
-                      }
-                      return null;
-                    },
+                    validator: _validationEmail,
                     decoration: const InputDecoration(
                         labelText: "Email",
                         prefix: Icon(
@@ -106,12 +125,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   TextFormField(
                     controller: userPassword,
                     obscureText: passwordVisible2,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Pleas Enter Password";
-                      }
-                      return null;
-                    },
+                    validator: _validatePassword,
                     decoration: InputDecoration(
                         labelText: "  Password",
                         labelStyle: const TextStyle(
@@ -167,45 +181,58 @@ class _SigninScreenState extends State<SigninScreen> {
                             TextStyle(color: Color.fromARGB(255, 255, 136, 0)),
                       ),
                       onPressed: () async {
-                        if (formkey.currentState!.validate()) {}
-                        String email = userEmail.text.trim();
-                        String password = userPassword.text.trim();
+                        if (_formkey.currentState!.validate()) {
+                          String email = userEmail.text.trim();
+                          String password = userPassword.text.trim();
 
-                        if (email.isEmpty || password.isEmpty) {
-                          Get.snackbar(
-                            "Error",
-                            "Please enter all details",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor:
-                                const Color.fromARGB(255, 255, 136, 0),
-                            colorText: Colors.white,
-                          );
-                        } else {
-                          UserCredential? userCredential =
-                              await signInController.signInMethod(
-                                  email, password);
+                          if (email.isEmpty || password.isEmpty) {
+                            Get.snackbar(
+                              "Error",
+                              "Please enter all details",
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 255, 136, 0),
+                              colorText: Colors.white,
+                            );
+                          } else {
+                            UserCredential? userCredential =
+                                await signInController.signInMethod(
+                                    email, password);
 
-                          var userData = await getUserDataController
-                              .getUserdata(userCredential!.user!.uid);
+                            /* var userData = await getUserDataController
+                                .getUserdata(userCredential!.user!.uid);*/
 
-                          if (userCredential != null) {
-                            if (userCredential.user!.emailVerified) {
-                              //
-                              if (userData[0]['isAdmin'] == true) {
-                                Get.snackbar(
-                                  "Success Admin Login",
-                                  "login Successfully!",
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 255, 136, 0),
-                                  colorText: Colors.white,
-                                );
-                                Get.offAll(() => const AdminScreen());
+                            if (userCredential != null) {
+                              //new line added
+                              var userData = await getUserDataController
+                                  .getUserdata(userCredential.user!.uid);
+                              if (userCredential.user!.emailVerified) {
+                                //
+                                if (userData[0]['isAdmin'] == true) {
+                                  Get.snackbar(
+                                    "Success Admin Login",
+                                    "login Successfully!",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 255, 136, 0),
+                                    colorText: Colors.white,
+                                  );
+                                  Get.offAll(() => const AdminScreen());
+                                } else {
+                                  Get.offAll(() => const AfterGoogleSignIn());
+                                  Get.snackbar(
+                                    "Success User Login",
+                                    "login Successfully!",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 255, 136, 0),
+                                    colorText: Colors.white,
+                                  );
+                                }
                               } else {
-                                Get.offAll(() => const AfterGoogleSignIn());
                                 Get.snackbar(
-                                  "Success User Login",
-                                  "login Successfully!",
+                                  "Error",
+                                  "Please verify your email before login",
                                   snackPosition: SnackPosition.BOTTOM,
                                   backgroundColor:
                                       const Color.fromARGB(255, 255, 136, 0),
@@ -215,22 +242,13 @@ class _SigninScreenState extends State<SigninScreen> {
                             } else {
                               Get.snackbar(
                                 "Error",
-                                "Please verify your email before login",
+                                "Please try again",
                                 snackPosition: SnackPosition.BOTTOM,
                                 backgroundColor:
                                     const Color.fromARGB(255, 255, 136, 0),
                                 colorText: Colors.white,
                               );
                             }
-                          } else {
-                            Get.snackbar(
-                              "Error",
-                              "Please try again",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 136, 0),
-                              colorText: Colors.white,
-                            );
                           }
                         }
                       },
