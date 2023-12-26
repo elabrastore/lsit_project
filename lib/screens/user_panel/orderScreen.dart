@@ -12,7 +12,6 @@ import 'package:list_fyp_project/models/order_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../controller/cardPrice_controller.dart';
-import '../constant/image.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -30,17 +29,13 @@ class _OrderScreenState extends State<OrderScreen> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(backgruond1), fit: BoxFit.fill)),
-        ),
+        flexibleSpace: Container(),
         title: Align(
           alignment: Alignment.center,
-          child: "Orders detail"
+          child: "Orders History"
               .text
               .fontWeight(FontWeight.bold)
-              .color(Colors.white)
+              .color(Colors.black)
               .make(),
         ),
       ),
