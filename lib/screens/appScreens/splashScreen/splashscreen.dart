@@ -7,6 +7,7 @@ import 'package:list_fyp_project/controller/get_user_dataController.dart';
 import 'package:list_fyp_project/screens/aftergooglesignin.dart';
 import 'package:list_fyp_project/screens/appScreens/adminScreen/admin_screen.dart';
 import 'package:list_fyp_project/screens/appScreens/homescreen.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
@@ -50,39 +51,16 @@ class _SplashscreenState extends State<Splashscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset("assets/images/zz.jpg").box.make(),
-              const Column(
-                children: [
-                  Text(
-                    "Created by Rao Anas",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 136, 0),
-                      fontSize: 17,
-                    ),
-                  ),
-                  Text(
-                    "Version 0.0.11.2",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 136, 0),
-                      fontSize: 17,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ],
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Colors.orange,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Lottie.asset("assets/animations/splash_animation.json"),
+          ],
+        ),
       ),
     );
   }

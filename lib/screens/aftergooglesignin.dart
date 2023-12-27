@@ -41,7 +41,7 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
       size: 25,
     ),
     Icon(
-      Icons.contact_page_rounded,
+      Icons.support_agent_outlined,
       size: 25,
     ),
   ];
@@ -105,7 +105,7 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
               Icon(Icons.home, size: 25),
               Icon(Icons.history, size: 25),
               Icon(Icons.add_shopping_cart_outlined, size: 25),
-              Icon(Icons.contact_page_outlined, size: 25),
+              Icon(Icons.support_agent_outlined, size: 25),
             ],
             index: index,
             onTap: (selectedIndex) {

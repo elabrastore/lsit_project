@@ -71,10 +71,10 @@ class _AllFlashsaleProductScreenState extends State<AllFlashsaleProductScreen> {
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 3,
-                  crossAxisSpacing: 3,
-                  childAspectRatio: 1.19),
+                crossAxisCount: 2,
+                mainAxisSpacing: 3,
+                crossAxisSpacing: 3,
+              ),
               itemBuilder: (context, index) {
                 final productsData = snapshot.data!.docs[index];
                 ProductModel productModel = ProductModel(

@@ -43,7 +43,7 @@ class FlashSale extends StatelessWidget {
 
         if (snapshot.data != null) {
           return Container(
-            height: Get.height / 5.0,
+            height: Get.height / 4.0,
             child: ListView.builder(
               itemCount: snapshot.data!.docs.length,
               shrinkWrap: true,

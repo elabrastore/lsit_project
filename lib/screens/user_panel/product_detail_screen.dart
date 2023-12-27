@@ -102,7 +102,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
   }
 
-  static Future<void> sendMessageonWhatsapp(
+  static Future<void> sendMessageOnWhatsApp(
+      {required ProductModel productModel}) async {
+    EasyLoading.show(status: "Wait...");
+    final phoneNumber = "+923064279507"; // Include the country code
+    final message =
+        "Hello\nWelcome to E-Labra store\nI want to know about this product\n${productModel.productName}\n${productModel.fullPrice}";
+
+    final url =
+        "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+
+    try {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw "Could not launch URL";
+      }
+    } catch (e) {
+      print("Error launching URL: $e");
+      EasyLoading.dismiss();
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  /*static Future<void> sendMessageonWhatsapp(
       {required ProductModel productModel}) async {
     EasyLoading.show(status: "Wait...");
     final number = "03064279507";
@@ -116,7 +140,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     } else {
       throw "Could not lanuch url";
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +281,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               "Add To Card"
                                   .text
                                   .color(Colors.white)
-                                  .size(17)
+                                  .size(14)
                                   .bold
                                   .make(),
                             ],
@@ -273,7 +297,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             fixedSize: const Size(147, 50),
                           ),
                           onPressed: () {
-                            sendMessageonWhatsapp(
+                            sendMessageOnWhatsApp(
                               productModel: widget.productModel,
                             );
                           },
@@ -287,7 +311,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               "Whatsapp"
                                   .text
                                   .color(Colors.white)
-                                  .size(17)
+                                  .size(15)
                                   .bold
                                   .make(),
                             ],
