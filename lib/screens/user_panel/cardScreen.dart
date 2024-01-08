@@ -25,6 +25,8 @@ class _CardSceenState extends State<CardSceen> {
   User? user = FirebaseAuth.instance.currentUser;
   final ProductPriceController productPriceController =
       Get.put(ProductPriceController());
+  bool get isCardNotEmpty => productPriceController.totalPrice > 0.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,21 +138,39 @@ class _CardSceenState extends State<CardSceen> {
                                 .text
                                 .make(),
                           ),
+                          // Product decrement button
                           GestureDetector(
                             onTap: () async {
-                              if (cartModel.productQuantity > 1) {
-                                await FirebaseFirestore.instance
-                                    .collection("card")
-                                    .doc(user!.uid)
-                                    .collection("cardorders")
-                                    .doc(cartModel.productId)
-                                    .update({
-                                  "productQuantity":
-                                      cartModel.productQuantity - 1,
-                                  "productTotalPrice":
-                                      (double.parse(cartModel.fullPrice) *
-                                          (cartModel.productQuantity - 1))
-                                });
+                              if (cartModel.isSale == true) {
+                                if (cartModel.productQuantity > 1) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity - 1,
+                                    "productTotalPrice":
+                                        (double.parse(cartModel.salePrice) *
+                                            (cartModel.productQuantity - 1))
+                                  });
+                                }
+                              } else {
+                                if (cartModel.productQuantity > 1) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity - 1,
+                                    "productTotalPrice":
+                                        (double.parse(cartModel.fullPrice) *
+                                            (cartModel.productQuantity - 1))
+                                  });
+                                }
                               }
                             },
                             child: CircleAvatar(
@@ -160,22 +180,42 @@ class _CardSceenState extends State<CardSceen> {
                             ),
                           ),
                           8.widthBox,
+
+                          // Product increment button
                           GestureDetector(
                             onTap: () async {
-                              if (cartModel.productQuantity > 0) {
-                                await FirebaseFirestore.instance
-                                    .collection("card")
-                                    .doc(user!.uid)
-                                    .collection("cardorders")
-                                    .doc(cartModel.productId)
-                                    .update({
-                                  "productQuantity":
-                                      cartModel.productQuantity + 1,
-                                  "productTotalPrice":
-                                      double.parse(cartModel.fullPrice) +
-                                          double.parse(cartModel.fullPrice) *
-                                              (cartModel.productQuantity)
-                                });
+                              if (cartModel.isSale == true) {
+                                if (cartModel.productQuantity > 0) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity + 1,
+                                    "productTotalPrice":
+                                        double.parse(cartModel.salePrice) +
+                                            double.parse(cartModel.salePrice) *
+                                                (cartModel.productQuantity)
+                                  });
+                                }
+                              } else {
+                                if (cartModel.productQuantity > 0) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity + 1,
+                                    "productTotalPrice":
+                                        double.parse(cartModel.fullPrice) +
+                                            double.parse(cartModel.fullPrice) *
+                                                (cartModel.productQuantity)
+                                  });
+                                }
                               }
                             },
                             child: CircleAvatar(
@@ -219,7 +259,18 @@ class _CardSceenState extends State<CardSceen> {
                   fixedSize: const Size(155, 50),
                 ),
                 onPressed: () {
-                  Get.to(() => const CheckOutScreen());
+                  if (isCardNotEmpty) {
+                    Get.to(() => const CheckOutScreen());
+                  } else {
+                    // Display an error message or handle the case where the card is empty
+                    Get.snackbar(
+                      "Empty",
+                      "Your card is empty! Place order Now",
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: const Color.fromARGB(255, 255, 161, 9),
+                      colorText: Colors.white,
+                    );
+                  }
                 },
                 child: "CheckOut".text.color(Colors.white).size(17).bold.make(),
               ),

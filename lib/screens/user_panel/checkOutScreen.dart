@@ -27,10 +27,31 @@ class _CardSceenState extends State<CheckOutScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   final ProductPriceController productPriceController =
       Get.put(ProductPriceController());
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+
+  String? _validatePhoneNumber(value) {
+    // Simple validation for a phone number starting with +92
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    } else if (!value.startsWith('+92')) {
+      return 'Phone number must start with +92';
+    } else if (value.length != 13) {
+      return "Please enter valid number";
+    }
+    return null; // Validation passed
+  }
+
+  String? _validateUsername(value) {
+    if (value == null || value.isEmpty) {
+      return 'Username is required';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -200,7 +221,7 @@ class _CardSceenState extends State<CheckOutScreen> {
   void bottomsheet() {
     Get.bottomSheet(
         Container(
-          height: Get.height * 0.8,
+          height: Get.height * 0.5,
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(16.0))),
@@ -210,89 +231,128 @@ class _CardSceenState extends State<CheckOutScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: SizedBox(
-                    height: 55,
-                    child: TextFormField(
-                      controller: nameController,
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                        labelText: "Name",
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.0,
+                  child: Form(
+                    key: _formkey,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 40),
+                          child: TextFormField(
+                            controller: nameController,
+                            validator: _validateUsername,
+                            decoration: const InputDecoration(
+                                labelText: "User Name",
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 136, 0)),
+                                hintText: "Rao Anas",
+                                isDense: true,
+                                prefix: Icon(
+                                  Icons.verified_user,
+                                  size: 16,
+                                  color: Color.fromARGB(255, 255, 136, 0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 255, 136, 0),
+                                )),
+                                border: OutlineInputBorder(),
+                                errorStyle: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 15,
+                                )),
+                            textInputAction: TextInputAction.next,
+                          ),
                         ),
-                        hintStyle: TextStyle(
-                          fontSize: 12,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: TextFormField(
+                            controller: phoneController,
+                            validator: _validatePhoneNumber,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.phone,
+                            decoration: const InputDecoration(
+                                labelText: "Phone",
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 136, 0)),
+                                hintText: "+92306********507",
+                                isDense: true,
+                                prefix: Icon(
+                                  Icons.phone,
+                                  size: 16,
+                                  color: Color.fromARGB(255, 255, 136, 0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 255, 136, 0),
+                                )),
+                                border: OutlineInputBorder(),
+                                errorStyle: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 15,
+                                )),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: SizedBox(
-                    height: 55,
-                    child: TextFormField(
-                      controller: phoneController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        labelText: "Phone",
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.0,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: TextFormField(
+                            controller: addressController,
+                            validator: _validateUsername,
+                            decoration: const InputDecoration(
+                                labelText: "Address",
+                                labelStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 136, 0)),
+                                hintText: "Address",
+                                isDense: true,
+                                prefix: Icon(
+                                  Icons.location_city,
+                                  size: 16,
+                                  color: Color.fromARGB(255, 255, 136, 0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 255, 136, 0),
+                                )),
+                                border: OutlineInputBorder(),
+                                errorStyle: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 15,
+                                )),
+                          ),
                         ),
-                        hintStyle: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: SizedBox(
-                    height: 55,
-                    child: TextFormField(
-                      controller: addressController,
-                      decoration: const InputDecoration(
-                        labelText: "Address",
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 10.0,
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
+                      fixedSize:
+                          Size(MediaQuery.of(context).size.width - 32, 50),
                     ),
                     onPressed: () async {
-                      if (nameController.text != "" &&
-                          phoneController.text != "" &&
-                          addressController.text != "") {
-                        String name = nameController.text.trim();
-                        String phone = phoneController.text.trim();
-                        String address = addressController.text.trim();
+                      if (_formkey.currentState!.validate()) {
+                        if (nameController.text != "" &&
+                            phoneController.text != "" &&
+                            addressController.text != "") {
+                          String name = nameController.text.trim();
+                          String phone = phoneController.text.trim();
+                          String address = addressController.text.trim();
 
-                        String customerToken = await getCustomerDeviceToken();
+                          String customerToken = await getCustomerDeviceToken();
 
-                        // place order
-                        placeOrder(
-                            context: context,
-                            customerName: name,
-                            customerPhone: phone,
-                            customeraddress: address,
-                            customerdeviceToken: customerToken);
-                      } else {
-                        print("Fill the detail");
+                          // place order
+                          placeOrder(
+                              context: context,
+                              customerName: name,
+                              customerPhone: phone,
+                              customeraddress: address,
+                              customerdeviceToken: customerToken);
+                        } else {
+                          print("Fill the detail");
+                        }
                       }
                     },
-                    child: "Place Order".text.white.bold.make()),
+                    child: "Place Order".text.size(20).white.bold.make()),
               ],
             ),
           ),
