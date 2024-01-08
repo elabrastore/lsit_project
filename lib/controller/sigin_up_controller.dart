@@ -1,5 +1,7 @@
 // ignore_for_file: unused_field, body_might_complete_normally_nullable
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -59,11 +61,29 @@ class SignUpController extends GetxController {
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      log(e.code.toString());
       EasyLoading.dismiss();
-      Get.snackbar("Error", "$e",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      if (e.code == 'weak-password') {
+        Get.snackbar("Weak Password", "The password provided is too weak.",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      } else if (e.code == "network-request-failed") {
+        Get.snackbar("Internet error", "Please check your internet",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      } else if (e.code == 'email-already-in-use') {
+        Get.snackbar("email-already-in-use", "try another email",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      } else {
+        Get.snackbar("Error", "Error: $e",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      }
     }
   }
 }

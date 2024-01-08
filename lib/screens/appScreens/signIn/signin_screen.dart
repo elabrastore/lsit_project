@@ -174,12 +174,13 @@ class _SigninScreenState extends State<SigninScreen> {
                   SizedBox(
                     width: context.screenWidth - 50,
                     height: 50,
-                    child: TextButton(
-                      child: const Text(
-                        "SIGN IN",
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 255, 136, 0)),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        fixedSize:
+                            Size(MediaQuery.of(context).size.width - 32, 50),
                       ),
+                      child: "Sign In".text.white.size(18).make(),
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
                           String email = userEmail.text.trim();

@@ -221,7 +221,7 @@ class _CardSceenState extends State<CheckOutScreen> {
   void bottomsheet() {
     Get.bottomSheet(
         Container(
-          height: Get.height * 0.5,
+          height: Get.height * 0.7,
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(16.0))),
