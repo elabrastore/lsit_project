@@ -359,7 +359,7 @@ class _SignupState extends State<Signup> {
                                 cpassword == "" ||
                                 name == "" ||
                                 phone == "") {
-                              Get.snackbar("Error", "Missing Creditials",
+                              Get.snackbar("Error", "Missing Credential!!",
                                   snackPosition: SnackPosition.BOTTOM,
                                   backgroundColor: Colors.red,
                                   colorText: Colors.white);

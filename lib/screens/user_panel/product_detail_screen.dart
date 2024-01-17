@@ -9,9 +9,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:list_fyp_project/models/product-model.dart';
 import 'package:list_fyp_project/screens/constant/image.dart';
 import 'package:list_fyp_project/screens/user_panel/cardScreen.dart';
+import 'package:list_fyp_project/screens/widgets/textGredient.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -172,159 +174,214 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               .make(),
         ),
       ),
-      body: Column(
-        children: [
-          10.heightBox,
-          CarouselSlider(
-              items: widget.productModel.productImages
-                  .map(
-                    (imageUrls) => ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrls,
-                        fit: BoxFit.cover,
-                        width: Get.width - 10,
-                        placeholder: (context, url) => const ColoredBox(
-                          color: Colors.white,
-                          child: Center(
-                            child: CupertinoActivityIndicator(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            10.heightBox,
+            CarouselSlider(
+                items: widget.productModel.productImages
+                    .map(
+                      (imageUrls) => ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrls,
+                          fit: BoxFit.cover,
+                          width: Get.width - 10,
+                          placeholder: (context, url) => const ColoredBox(
+                            color: Colors.white,
+                            child: Center(
+                              child: CupertinoActivityIndicator(),
+                            ),
                           ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                      ),
+                    )
+                    .toList(),
+                options: CarouselOptions(
+                  scrollDirection: Axis.horizontal,
+                  autoPlay: true,
+                  aspectRatio: 2.5,
+                  viewportFraction: 1,
+                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                elevation: 5.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              widget.productModel.isSale == true &&
+                                      widget.productModel.salePrice != ""
+                                  ? "RS: ${widget.productModel.salePrice}"
+                                      .text
+                                      .fontWeight(FontWeight.bold)
+                                      .make()
+                                  : "RS: ${widget.productModel.fullPrice}"
+                                      .text
+                                      .fontWeight(FontWeight.bold)
+                                      .make(),
+                              const Icon(Icons.favorite_outline)
+                            ],
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 200,
+                      child: Divider(
+                        color: Colors.orange,
                       ),
                     ),
-                  )
-                  .toList(),
-              options: CarouselOptions(
-                scrollDirection: Axis.horizontal,
-                autoPlay: true,
-                aspectRatio: 2.5,
-                viewportFraction: 1,
-              )),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            widget.productModel.isSale == true &&
-                                    widget.productModel.salePrice != ""
-                                ? "RS: ${widget.productModel.salePrice}"
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          alignment: Alignment.topLeft,
+                          child: TextGradient(
+                            data: widget.productModel.productName,
+                            size: 25,
+                            weight: FontWeight.bold,
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          alignment: Alignment.topLeft,
+                          child: "Category: ${widget.productModel.categoryName}"
+                              .text
+                              .bold
+                              .make()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          alignment: Alignment.topLeft,
+                          child:
+                              "Product Description: ${widget.productModel.productDescription}"
+                                  .text
+                                  .make()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InstaImageViewer(
+                          child: Container(
+                        height: 300,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  widget.productModel.productImages[0]),
+                              fit: BoxFit.cover),
+                        ),
+                      )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InstaImageViewer(
+                          child: Container(
+                        height: 300,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  widget.productModel.productImages[1]),
+                              fit: BoxFit.cover),
+                        ),
+                      )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InstaImageViewer(
+                          child: Container(
+                        height: 300,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  widget.productModel.productImages[2]),
+                              fit: BoxFit.cover),
+                        ),
+                      )),
+                    ),
+                    10.heightBox,
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange,
+                              fixedSize: const Size(155, 50),
+                            ),
+                            onPressed: () async {
+                              await checkProduct(uId: user!.uid);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Icon(
+                                  Icons.shopping_bag_outlined,
+                                  color: Colors.white,
+                                ),
+                                "Add To Card"
                                     .text
-                                    .fontWeight(FontWeight.bold)
-                                    .make()
-                                : "RS: ${widget.productModel.fullPrice}"
-                                    .text
-                                    .fontWeight(FontWeight.bold)
+                                    .color(Colors.white)
+                                    .size(14)
+                                    .bold
                                     .make(),
-                            const Icon(Icons.favorite_outline)
-                          ],
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        alignment: Alignment.topLeft,
-                        child:
-                            "Product Name: ${widget.productModel.productName}"
-                                .text
-                                .make()),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        alignment: Alignment.topLeft,
-                        child: "Category: ${widget.productModel.categoryName}"
-                            .text
-                            .make()),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        alignment: Alignment.topLeft,
-                        child:
-                            "Product Description: ${widget.productModel.productDescription}"
-                                .text
-                                .make()),
-                  ),
-                  10.heightBox,
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            fixedSize: const Size(155, 50),
-                          ),
-                          onPressed: () async {
-                            await checkProduct(uId: user!.uid);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Icon(
-                                Icons.shopping_bag_outlined,
-                                color: Colors.white,
-                              ),
-                              "Add To Card"
-                                  .text
-                                  .color(Colors.white)
-                                  .size(14)
-                                  .bold
-                                  .make(),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 5, 211, 36),
-                            fixedSize: const Size(147, 50),
-                          ),
-                          onPressed: () {
-                            sendMessageOnWhatsApp(
-                              productModel: widget.productModel,
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Icon(
-                                Icons.message,
-                                color: Colors.white,
-                              ),
-                              "Whatsapp"
-                                  .text
-                                  .color(Colors.white)
-                                  .size(15)
-                                  .bold
-                                  .make(),
-                            ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 5, 211, 36),
+                              fixedSize: const Size(147, 50),
+                            ),
+                            onPressed: () {
+                              sendMessageOnWhatsApp(
+                                productModel: widget.productModel,
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Icon(
+                                  Icons.message,
+                                  color: Colors.white,
+                                ),
+                                "Whatsapp"
+                                    .text
+                                    .color(Colors.white)
+                                    .size(15)
+                                    .bold
+                                    .make(),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
