@@ -231,7 +231,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       .text
                                       .fontWeight(FontWeight.bold)
                                       .make(),
-                              const Icon(Icons.favorite_outline)
                             ],
                           )),
                     ),
@@ -264,10 +263,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                           alignment: Alignment.topLeft,
-                          child:
-                              "Product Description: ${widget.productModel.productDescription}"
+                          child: Row(
+                            children: [
+                              const TextGradient(
+                                data: "Product Description:",
+                                weight: FontWeight.bold,
+                              ),
+                              " ${widget.productModel.productDescription}"
                                   .text
-                                  .make()),
+                                  .make(),
+                            ],
+                          )),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),

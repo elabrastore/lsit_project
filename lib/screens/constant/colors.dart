@@ -11,4 +11,4 @@ const tCardBgColor = Color(0xFFF7F6F1);
 const tOnBoardingPage1Color = Colors.white;
 const tOnBoardingPage2Color = Color(0xfffddcdf);
 const tOnBoardingPage3Color = Color(0xffffdcbd);
-const tOnBoardingPage3Color2 = Color.fromARGB(255, 255, 136, 0);
+const tOnBoardingPage3Color2 = Color(0xFFFF6D00);

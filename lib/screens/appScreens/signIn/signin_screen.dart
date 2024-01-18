@@ -15,8 +15,11 @@ import 'package:list_fyp_project/screens/appScreens/signup/signup.dart';
 
 import 'package:list_fyp_project/screens/common_widgets/applogo.dart';
 import 'package:list_fyp_project/screens/constant/colors.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:velocity_x/velocity_x.dart';
+
+import '../../constant/animation.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -67,6 +70,7 @@ class _SigninScreenState extends State<SigninScreen> {
     return KeyboardVisibilityBuilder(builder: (context, iskeyboardVisibile) {
       return Scaffold(
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
           flexibleSpace: Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -91,8 +95,7 @@ class _SigninScreenState extends State<SigninScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   iskeyboardVisibile
-                      ? const Image(
-                          image: AssetImage("assets/images/login.png"))
+                      ? const Image(image: AssetImage("assets/images/Anas.png"))
                       : applogowidget(),
                   const SizedBox(
                     height: 30,
@@ -176,11 +179,19 @@ class _SigninScreenState extends State<SigninScreen> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
+                        backgroundColor: const Color(0xFFFF6D00),
                         fixedSize:
                             Size(MediaQuery.of(context).size.width - 32, 50),
                       ),
-                      child: "Sign In".text.white.size(18).make(),
+                      child: Row(
+                        children: [
+                          Lottie.asset(loginA),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 60),
+                            child: "Sign In".text.white.size(18).make(),
+                          ),
+                        ],
+                      ),
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
                           String email = userEmail.text.trim();

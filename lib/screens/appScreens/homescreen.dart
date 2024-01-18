@@ -5,8 +5,9 @@ import 'package:list_fyp_project/screens/appScreens/signIn/signin_screen.dart';
 import 'package:list_fyp_project/screens/common_widgets/applogo.dart';
 import 'package:list_fyp_project/screens/common_widgets/homescreen_common.dart';
 
-import 'package:list_fyp_project/screens/constant/image.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../constant/animation.dart';
 
 class AfterSplash extends StatefulWidget {
   const AfterSplash({super.key});
@@ -27,7 +28,7 @@ class _AfterSplashState extends State<AfterSplash> {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 30, top: 15),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 applogowidget(),
                 const SizedBox(
@@ -35,7 +36,7 @@ class _AfterSplashState extends State<AfterSplash> {
                 ),
                 homeScreencommon(
                     title1: "Sign in with Google",
-                    image: googleimage,
+                    animation1: emailsigin,
                     color1: Colors.white,
                     ontap1: () {
                       _googleSignInController.signInWithGoogle();
@@ -43,7 +44,7 @@ class _AfterSplashState extends State<AfterSplash> {
                 20.heightBox,
                 homeScreencommon(
                     title1: "Sign in with E-mail",
-                    image: email2,
+                    animation1: googlesigin,
                     color1: Colors.white,
                     ontap1: () {
                       Get.to(() => const SigninScreen());

@@ -83,6 +83,7 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
@@ -343,7 +344,7 @@ class _SignupState extends State<Signup> {
                     ? ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: ischeck == true
-                                ? const Color.fromARGB(255, 255, 136, 0)
+                                ? const Color(0xFFFF6D00)
                                 : Colors.grey),
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
@@ -391,7 +392,10 @@ class _SignupState extends State<Signup> {
                             }
                           }
                         },
-                        child: const Text("Create an Account"))
+                        child: const Text(
+                          "Create an Account",
+                          style: TextStyle(color: Colors.white),
+                        ))
                     : Container(
                         decoration: const BoxDecoration(
                           color: Colors.black,
