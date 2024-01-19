@@ -65,7 +65,7 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
                   Icons.power_settings_new,
                   size: 25,
                 ),
-              ))
+              )),
         ],
         iconTheme: const IconThemeData(color: Colors.white),
         flexibleSpace: Container(
