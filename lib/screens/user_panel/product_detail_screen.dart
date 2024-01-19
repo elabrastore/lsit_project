@@ -263,11 +263,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                           alignment: Alignment.topLeft,
-                          child: Row(
+                          child: Column(
                             children: [
                               const TextGradient(
                                 data: "Product Description:",
                                 weight: FontWeight.bold,
+                                size: 17,
                               ),
                               " ${widget.productModel.productDescription}"
                                   .text

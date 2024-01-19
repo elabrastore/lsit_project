@@ -1,4 +1,6 @@
 // ignore_for_file: unused_field, body_might_complete_normally_nullable
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,19 +22,33 @@ class SignInController extends GetxController {
 
       EasyLoading.dismiss();
       return userCredential;
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (ex) {
+      log(ex.code.toString());
       EasyLoading.dismiss();
-      Get.snackbar(
-        "Error",
-        "$e",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      if (ex.code == 'weak-password') {
+        Get.snackbar("Error", "The password provided is too weak.",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      } else if (ex.code == 'invalid-credential') {
+        Get.snackbar("invalid-credential", "Please try again",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      } else if (ex.code == "network-request-failed") {
+        Get.snackbar("network-request-failed", "Please Check Your internet!!",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      } else {
+        Get.snackbar("Error", "Error: $ex",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      }
     }
   }
 }
-
 
 
 /*import 'dart:developer';

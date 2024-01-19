@@ -243,11 +243,10 @@ class _SigninScreenState extends State<SigninScreen> {
                                 }
                               } else {
                                 Get.snackbar(
-                                  "Error",
+                                  "Verification",
                                   "Please verify your email before login",
                                   snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 255, 136, 0),
+                                  backgroundColor: Colors.orange,
                                   colorText: Colors.white,
                                 );
                               }
@@ -256,8 +255,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                 "Error",
                                 "Please try again",
                                 snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor:
-                                    const Color.fromARGB(255, 255, 136, 0),
+                                backgroundColor: Colors.red,
                                 colorText: Colors.white,
                               );
                             }

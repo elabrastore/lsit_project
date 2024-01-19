@@ -25,32 +25,38 @@ class _AfterSplashState extends State<AfterSplash> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 30, top: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                applogowidget(),
-                const SizedBox(
-                  height: 30,
+          child: Column(
+            children: [
+              applogowidget(),
+              const SizedBox(
+                height: 30,
+              ),
+              50.heightBox,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  child: Column(
+                    children: [
+                      homeScreencommon(
+                          title1: "Sign in with Google",
+                          animation1: emailsigin,
+                          color1: Colors.white,
+                          ontap1: () {
+                            _googleSignInController.signInWithGoogle();
+                          }),
+                      20.heightBox,
+                      homeScreencommon(
+                          title1: "Sign in with E-mail",
+                          animation1: googlesigin,
+                          color1: Colors.white,
+                          ontap1: () {
+                            Get.to(() => const SigninScreen());
+                          }),
+                    ],
+                  ),
                 ),
-                homeScreencommon(
-                    title1: "Sign in with Google",
-                    animation1: emailsigin,
-                    color1: Colors.white,
-                    ontap1: () {
-                      _googleSignInController.signInWithGoogle();
-                    }),
-                20.heightBox,
-                homeScreencommon(
-                    title1: "Sign in with E-mail",
-                    animation1: googlesigin,
-                    color1: Colors.white,
-                    ontap1: () {
-                      Get.to(() => const SigninScreen());
-                    }),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),

@@ -11,11 +11,11 @@ Widget homeScreencommon({color1, animation1, String? title1, ontap1}) {
     child: InkWell(
       onTap: ontap1,
       child: Container(
-        height: 80,
+        height: 60,
         decoration: BoxDecoration(
           color: tOnBoardingPage3Color2,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.grey,
               offset: Offset(0, 2), // Change the offset as needed
@@ -26,11 +26,11 @@ Widget homeScreencommon({color1, animation1, String? title1, ontap1}) {
         ),
         child: Row(
           children: [
-            SizedBox(
-              height: 150,
-              width: 150,
+            Container(
+              color: const Color.fromARGB(255, 250, 243, 243),
               child: Lottie.asset(animation1),
             ),
+            40.widthBox,
             "$title1".text.white.bold.size(20).make(),
           ],
         ),
