@@ -45,9 +45,9 @@ class _SignupState extends State<Signup> {
     // Simple validation for a phone number starting with +92
     if (value == null || value.isEmpty) {
       return 'Phone number is required';
-    } else if (!value.startsWith('+92')) {
-      return 'Phone number must start with +92';
-    } else if (value.length != 13) {
+    } else if (!value.startsWith('03')) {
+      return 'Phone number must start with 03';
+    } else if (value.length != 11) {
       return "Please enter valid number";
     }
     return null; // Validation passed
@@ -147,7 +147,7 @@ class _SignupState extends State<Signup> {
                       labelText: "Phone",
                       labelStyle:
                           TextStyle(color: Color.fromARGB(255, 255, 136, 0)),
-                      hintText: "+92306********507",
+                      hintText: "0306********507",
                       isDense: true,
                       prefix: Icon(
                         Icons.phone,

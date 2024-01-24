@@ -6,8 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 import 'package:list_fyp_project/models/order_model.dart';
+import 'package:list_fyp_project/screens/constant/animation.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
@@ -99,38 +102,123 @@ class _OrderScreenState extends State<OrderScreen> {
                 // Fetch value from cardprice controller (Calculate value)
                 productPriceController.fetchProductPrice();
                 return Card(
-                  elevation: 4,
-                  child: ListTile(
-                    title: Column(
-                      children: [
-                        "Product Quantiy: ${orderModel.productQuantity}"
-                            .text
-                            .make(),
-                        orderModel.productName.text.make(),
-                      ],
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(orderModel.productImages[0]),
-                      backgroundColor: Colors.orange,
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: "${orderModel.productTotalPrice} : PKR"
-                              .toString()
-                              .text
-                              .make(),
+                    elevation: 4,
+                    child: Container(
+                      color: const Color.fromARGB(255, 255, 128, 1),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InstaImageViewer(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      height: 80,
+                                      width: 80,
+                                      child: Image.network(
+                                        orderModel.productImages[0],
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                                InstaImageViewer(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      height: 80,
+                                      width: 80,
+                                      child: Image.network(
+                                        orderModel.productImages[1],
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                                InstaImageViewer(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      height: 80,
+                                      width: 80,
+                                      child: Image.network(
+                                        orderModel.productImages[2],
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                              ],
+                            ),
+                            10.heightBox,
+                            Row(
+                              children: [
+                                "Product Quantiy:".text.white.bold.make(),
+                                5.widthBox,
+                                CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: Colors.red,
+                                  child: Center(
+                                    child: "${orderModel.productQuantity}"
+                                        .text
+                                        .white
+                                        .bold
+                                        .make(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                "Product Name: ${orderModel.productName}"
+                                    .text
+                                    .white
+                                    .bold
+                                    .make(),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                "Delivery Time: ${orderModel.deliveryTime}"
+                                    .text
+                                    .bold
+                                    .white
+                                    .make(),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                "${orderModel.productTotalPrice} PKR"
+                                    .toString()
+                                    .text
+                                    .white
+                                    .bold
+                                    .make(),
+                                Container(
+                                  color: Colors.red,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: orderModel.status == true
+                                        ? "Delived"
+                                            .text
+                                            .color(Colors.white)
+                                            .bold
+                                            .make()
+                                        : "Order Pending..."
+                                            .text
+                                            .bold
+                                            .size(16)
+                                            .color(Colors.white)
+                                            .make(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        orderModel.status == true
-                            ? "Delived".text.color(Colors.green).make()
-                            : "Order Pending...".text.color(Colors.red).make(),
-                      ],
-                    ),
-                  ),
-                );
+                      ),
+                    ));
               },
             );
           }
@@ -141,71 +229,3 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
- /*Container(
-          child: ListView.builder(
-        itemCount: 20,
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Card(
-            elevation: 4,
-            child: ListTile(
-              title: "new dress for men".text.make(),
-              leading: CircleAvatar(
-                child: "Rao".text.white.make(),
-                backgroundColor: Colors.orange,
-              ),
-              subtitle: Row(
-                children: [
-                  "2000".text.make(),
-                  CircleAvatar(
-                    backgroundColor: Colors.orange,
-                    child: "+".text.white.make(),
-                    radius: 14,
-                  ),
-                  8.widthBox,
-                  CircleAvatar(
-                    backgroundColor: Colors.orange,
-                    child: "-".text.white.bold.make(),
-                    radius: 14,
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-      )),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 5.0),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              " Total".text.size(16).bold.make(),
-              15.widthBox,
-              "RS 12000".text.size(16).bold.make(),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  fixedSize: const Size(155, 50),
-                ),
-                onPressed: () {},
-                child: "CheckOut".text.color(Colors.white).size(17).bold.make(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );*/

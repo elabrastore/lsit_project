@@ -24,6 +24,8 @@
 
 
 
+
+
       // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unused_local_variable, unnecessary_null_comparison, file_names
 
 import 'package:e_comm/controllers/sign-in-controller.dart';
@@ -258,3 +260,33 @@ class _SignInScreenState extends State<SignInScreen> {
 
 
 
+/* ListTile(
+                    title: Column(
+                      children: [
+                        "Product Quantiy: ${orderModel.productQuantity}"
+                            .text
+                            .make(),
+                        orderModel.productName.text.make(),
+                      ],
+                    ),
+                    leading: CircleAvatar(
+                      backgroundImage:
+                          NetworkImage(orderModel.productImages[0]),
+                      backgroundColor: Colors.orange,
+                    ),
+                    subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: "${orderModel.productTotalPrice} : PKR"
+                              .toString()
+                              .text
+                              .make(),
+                        ),
+                        orderModel.status == true
+                            ? "Delived".text.color(Colors.green).make()
+                            : "Order Pending...".text.color(Colors.red).make(),
+                      ],
+                    ),
+                  ),*/

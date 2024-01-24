@@ -1,5 +1,7 @@
 // ignore_for_file: unused_field
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +19,19 @@ class ForgerPasswordController extends GetxController {
       EasyLoading.show(status: "Please wait");
 
       await _auth.sendPasswordResetEmail(email: userEmail);
-    } on FirebaseAuthException catch (e) {
+      Get.snackbar(
+        "Password Reset Email Sent",
+        "Please check your email for instructions",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } on FirebaseAuthException catch (ex) {
+      log(ex.code.toString());
       EasyLoading.dismiss();
       Get.snackbar(
         "Error",
-        "$e",
+        "$ex",
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
