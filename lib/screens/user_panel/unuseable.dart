@@ -290,3 +290,252 @@ class _SignInScreenState extends State<SignInScreen> {
                       ],
                     ),
                   ),*/
+
+
+
+
+
+
+
+                 /*  ListTile(
+                      title: Column(
+                        children: [
+                          "Product Quantiy: ${cartModel.productQuantity}"
+                              .text
+                              .make(),
+                          cartModel.productName.text.make(),
+                        ],
+                      ),
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(),
+                        backgroundColor: Colors.orange,
+                      ),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: "${cartModel.productTotalPrice} : PKR"
+                                .toString()
+                                .text
+                                .make(),
+                          ),
+                          // Product decrement button
+                          GestureDetector(
+                            onTap: () async {
+                              if (cartModel.isSale == true) {
+                                if (cartModel.productQuantity > 1) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity - 1,
+                                    "productTotalPrice":
+                                        (double.parse(cartModel.salePrice) *
+                                            (cartModel.productQuantity - 1))
+                                  });
+                                }
+                              } else {
+                                if (cartModel.productQuantity > 1) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity - 1,
+                                    "productTotalPrice":
+                                        (double.parse(cartModel.fullPrice) *
+                                            (cartModel.productQuantity - 1))
+                                  });
+                                }
+                              }
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.orange,
+                              child: "-".text.white.make(),
+                              radius: 14,
+                            ),
+                          ),
+                          8.widthBox,
+
+                          // Product increment button
+                          GestureDetector(
+                            onTap: () async {
+                              if (cartModel.isSale == true) {
+                                if (cartModel.productQuantity > 0) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity + 1,
+                                    "productTotalPrice":
+                                        double.parse(cartModel.salePrice) +
+                                            double.parse(cartModel.salePrice) *
+                                                (cartModel.productQuantity)
+                                  });
+                                }
+                              } else {
+                                if (cartModel.productQuantity > 0) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity + 1,
+                                    "productTotalPrice":
+                                        double.parse(cartModel.fullPrice) +
+                                            double.parse(cartModel.fullPrice) *
+                                                (cartModel.productQuantity)
+                                  });
+                                }
+                              }
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.orange,
+                              child: "+".text.white.bold.make(),
+                              radius: 14,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),*/
+
+
+
+
+
+
+
+
+
+
+                 /*    Container(
+                        decoration: const BoxDecoration(
+                          color:  Color.fromARGB(255, 255, 128, 1),
+                          
+                        ),
+                        child:  Column(
+                        children: [
+                          "Product Quantiy: ${cartModel.productQuantity}"
+                              .text
+                              .make(),
+                          cartModel.productName.text.make(),
+
+                          
+                        ],
+                      ),
+                      )*/
+
+
+
+
+
+                     /*  Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: "${cartModel.productTotalPrice} : PKR"
+                                .toString()
+                                .text
+                                .make(),
+                          ),
+                          // Product decrement button
+                          GestureDetector(
+                            onTap: () async {
+                              if (cartModel.isSale == true) {
+                                if (cartModel.productQuantity > 1) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity - 1,
+                                    "productTotalPrice":
+                                        (double.parse(cartModel.salePrice) *
+                                            (cartModel.productQuantity - 1))
+                                  });
+                                }
+                              } else {
+                                if (cartModel.productQuantity > 1) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity - 1,
+                                    "productTotalPrice":
+                                        (double.parse(cartModel.fullPrice) *
+                                            (cartModel.productQuantity - 1))
+                                  });
+                                }
+                              }
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.orange,
+                              child: "-".text.white.make(),
+                              radius: 14,
+                            ),
+                          ),
+                          8.widthBox,
+
+                          // Product increment button
+                          GestureDetector(
+                            onTap: () async {
+                              if (cartModel.isSale == true) {
+                                if (cartModel.productQuantity > 0) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity + 1,
+                                    "productTotalPrice":
+                                        double.parse(cartModel.salePrice) +
+                                            double.parse(cartModel.salePrice) *
+                                                (cartModel.productQuantity)
+                                  });
+                                }
+                              } else {
+                                if (cartModel.productQuantity > 0) {
+                                  await FirebaseFirestore.instance
+                                      .collection("card")
+                                      .doc(user!.uid)
+                                      .collection("cardorders")
+                                      .doc(cartModel.productId)
+                                      .update({
+                                    "productQuantity":
+                                        cartModel.productQuantity + 1,
+                                    "productTotalPrice":
+                                        double.parse(cartModel.fullPrice) +
+                                            double.parse(cartModel.fullPrice) *
+                                                (cartModel.productQuantity)
+                                  });
+                                }
+                              }
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.orange,
+                              child: "+".text.white.bold.make(),
+                              radius: 14,
+                            ),
+                          )
+                        ],
+                      ),*/

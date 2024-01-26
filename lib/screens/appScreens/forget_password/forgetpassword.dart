@@ -45,10 +45,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               iskeyboardVisibile3
-                  ? const Image(image: AssetImage("assets/images/Anas.png"))
+                  ? const SizedBox(
+                      height: 300,
+                      width: 300,
+                      child: Image(image: AssetImage("assets/images/Anas.png")))
                   : applogowidget(),
               const SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

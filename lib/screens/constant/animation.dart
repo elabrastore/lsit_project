@@ -6,3 +6,4 @@ const backetA = 'assets/animations/backet.json';
 const home = 'assets/animations/home.json';
 const profile = 'assets/animations/profile.json';
 const price = 'assets/animations/price.json';
+const emptyBox = 'assets/animations/EmptyBox.json';

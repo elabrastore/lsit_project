@@ -95,7 +95,11 @@ class _SigninScreenState extends State<SigninScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   iskeyboardVisibile
-                      ? const Image(image: AssetImage("assets/images/Anas.png"))
+                      ? const SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: Image(
+                              image: AssetImage("assets/images/Anas.png")))
                       : applogowidget(),
                   const SizedBox(
                     height: 30,

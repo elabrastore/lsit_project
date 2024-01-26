@@ -81,33 +81,31 @@ class FlashSale extends StatelessWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          child: FillImageCard(
-                            borderRadius: 20.0,
-                            width: Get.width / 3.0,
-                            heightImage: Get.height / 10,
-                            imageProvider: CachedNetworkImageProvider(
-                              productModel.productImages[0],
+                        child: FillImageCard(
+                          borderRadius: 20.0,
+                          width: Get.width / 3.0,
+                          heightImage: Get.height / 10,
+                          imageProvider: CachedNetworkImageProvider(
+                            productModel.productImages[0],
+                          ),
+                          title: Center(
+                            child: Text(
+                              productModel.productName,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 12.0),
                             ),
-                            title: Center(
-                              child: Text(
-                                productModel.productName,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 12.0),
-                              ),
-                            ),
-                            footer: Row(
-                              children: [
-                                "Rs ${productModel.salePrice}".text.make(),
-                                2.widthBox,
-                                Text(
-                                  "Rs ${productModel.fullPrice}",
-                                  style: const TextStyle(
-                                      color: Colors.orange,
-                                      decoration: TextDecoration.lineThrough),
-                                )
-                              ],
-                            ),
+                          ),
+                          footer: Row(
+                            children: [
+                              "Rs ${productModel.salePrice}".text.make(),
+                              2.widthBox,
+                              Text(
+                                "Rs ${productModel.fullPrice}",
+                                style: const TextStyle(
+                                    color: Colors.orange,
+                                    decoration: TextDecoration.lineThrough),
+                              )
+                            ],
                           ),
                         ),
                       ),

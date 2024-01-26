@@ -9,8 +9,6 @@ import 'package:get/get.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 import 'package:list_fyp_project/models/order_model.dart';
-import 'package:list_fyp_project/screens/constant/animation.dart';
-import 'package:lottie/lottie.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
@@ -30,18 +28,6 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        flexibleSpace: Container(),
-        title: Align(
-          alignment: Alignment.center,
-          child: "Orders History"
-              .text
-              .fontWeight(FontWeight.bold)
-              .color(Colors.black)
-              .make(),
-        ),
-      ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('orders')
@@ -102,9 +88,15 @@ class _OrderScreenState extends State<OrderScreen> {
                 // Fetch value from cardprice controller (Calculate value)
                 productPriceController.fetchProductPrice();
                 return Card(
-                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 10,
                     child: Container(
-                      color: const Color.fromARGB(255, 255, 128, 1),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: const Color.fromARGB(255, 255, 128, 1),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -157,7 +149,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                 5.widthBox,
                                 CircleAvatar(
                                   radius: 15,
-                                  backgroundColor: Colors.red,
+                                  backgroundColor: orderModel.status == true
+                                      ? Colors.green
+                                      : Colors.red,
                                   child: Center(
                                     child: "${orderModel.productQuantity}"
                                         .text
@@ -195,24 +189,30 @@ class _OrderScreenState extends State<OrderScreen> {
                                     .white
                                     .bold
                                     .make(),
-                                Container(
-                                  color: Colors.red,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: orderModel.status == true
-                                        ? "Delived"
-                                            .text
-                                            .color(Colors.white)
-                                            .bold
-                                            .make()
-                                        : "Order Pending..."
-                                            .text
-                                            .bold
-                                            .size(16)
-                                            .color(Colors.white)
-                                            .make(),
-                                  ),
-                                ),
+                                orderModel.status == true
+                                    ? Container(
+                                        color: Colors.green,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: "Delived"
+                                              .text
+                                              .color(Colors.white)
+                                              .bold
+                                              .make(),
+                                        ),
+                                      )
+                                    : Container(
+                                        color: Colors.red,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: "Order Pending..."
+                                              .text
+                                              .bold
+                                              .size(16)
+                                              .color(Colors.white)
+                                              .make(),
+                                        ),
+                                      ),
                               ],
                             ),
                           ],

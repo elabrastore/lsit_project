@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 import 'package:list_fyp_project/models/Card_model.dart';
 
@@ -37,9 +38,9 @@ class _CardSceenState extends State<CheckOutScreen> {
     // Simple validation for a phone number starting with +92
     if (value == null || value.isEmpty) {
       return 'Phone number is required';
-    } else if (!value.startsWith('+92')) {
-      return 'Phone number must start with +92';
-    } else if (value.length != 13) {
+    } else if (!value.startsWith('03')) {
+      return 'Phone number must start with 03';
+    } else if (value.length != 11) {
       return "Please enter valid number";
     }
     return null; // Validation passed
@@ -139,35 +140,94 @@ class _CardSceenState extends State<CheckOutScreen> {
                               .collection("cardorders")
                               .doc(cartModel.productId)
                               .delete();
+
+                          // Fetch value from cardprice controller (Calculate value)
+                          productPriceController.fetchProductPrice();
                         })
                   ],
                   child: Card(
                     elevation: 4,
-                    child: ListTile(
-                      title: Column(
-                        children: [
-                          "Product Quantiy: ${cartModel.productQuantity}"
-                              .text
-                              .make(),
-                          cartModel.productName.text.make(),
-                        ],
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 255, 128, 1),
                       ),
-                      leading: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(cartModel.productImages[0]),
-                        backgroundColor: Colors.orange,
-                      ),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: "${cartModel.productTotalPrice} : PKR"
-                                .toString()
-                                .text
-                                .make(),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InstaImageViewer(
+                                  child: SizedBox(
+                                      height: 80,
+                                      width: 80,
+                                      child: Image.network(
+                                        cartModel.productImages[0],
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                                InstaImageViewer(
+                                  child: SizedBox(
+                                      height: 80,
+                                      width: 80,
+                                      child: Image.network(
+                                        cartModel.productImages[1],
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                                InstaImageViewer(
+                                  child: SizedBox(
+                                      height: 80,
+                                      width: 80,
+                                      child: Image.network(
+                                        cartModel.productImages[2],
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                              ],
+                            ),
+                            10.heightBox,
+                            Row(
+                              children: [
+                                "Product Quantiy :".text.white.bold.make(),
+                                7.widthBox,
+                                CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: Colors.red,
+                                  child: Center(
+                                    child: "${cartModel.productQuantity}"
+                                        .text
+                                        .white
+                                        .bold
+                                        .make(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                "Product Name : ${cartModel.productName}"
+                                    .text
+                                    .white
+                                    .bold
+                                    .make(),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                "${cartModel.productTotalPrice} : PKR"
+                                    .toString()
+                                    .text
+                                    .white
+                                    .bold
+                                    .make(),
+                                // Product decrement button
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -274,7 +334,7 @@ class _CardSceenState extends State<CheckOutScreen> {
                                 labelText: "Phone",
                                 labelStyle: TextStyle(
                                     color: Color.fromARGB(255, 255, 136, 0)),
-                                hintText: "+92306********507",
+                                hintText: "0306********507",
                                 isDense: true,
                                 prefix: Icon(
                                   Icons.phone,

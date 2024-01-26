@@ -13,6 +13,7 @@ import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:list_fyp_project/models/product-model.dart';
 import 'package:list_fyp_project/screens/constant/image.dart';
 import 'package:list_fyp_project/screens/user_panel/cardScreen.dart';
+import 'package:list_fyp_project/screens/user_panel/checkOutScreen.dart';
 import 'package:list_fyp_project/screens/widgets/textGredient.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -52,11 +53,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
       EasyLoading.dismiss();
 
+      Get.defaultDialog(
+          title: "Product Already Exist ",
+          titleStyle: const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),
+          middleText: "Product already exist in the cart and Add One More ",
+          middleTextStyle:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          backgroundColor: const Color.fromARGB(255, 255, 136, 0),
+          radius: 10,
+          textCancel: "Cancel",
+          onConfirm: () {
+            Get.to(() => const CheckOutScreen());
+          },
+          textConfirm: "CheckOut");
+
       Get.showSnackbar(
         const GetSnackBar(
-          backgroundColor: Colors.orange,
-          title: "product exist in card",
-          message: "Product exist",
+          backgroundColor: Colors.red,
+          title: "Product Already Exist ",
+          message: "Product already exist in the cart and Add One More ",
           icon: Icon(Icons.refresh),
           duration: Duration(seconds: 3),
         ),
@@ -92,7 +108,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
       EasyLoading.dismiss();
 
-      Get.showSnackbar(
+      Get.defaultDialog(
+          title: "Cart Now",
+          titleStyle: const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),
+          middleText: "Product added into cart",
+          middleTextStyle:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          backgroundColor: const Color.fromARGB(255, 255, 136, 0),
+          radius: 10,
+          textCancel: "Cancel",
+          onConfirm: () {
+            Get.to(() => const CardSceen());
+          },
+          textConfirm: "Cart");
+
+      /* Get.showSnackbar(
         const GetSnackBar(
           backgroundColor: Colors.orange,
           title: "Product added into cart Please check",
@@ -100,7 +131,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           icon: Icon(Icons.refresh),
           duration: Duration(seconds: 3),
         ),
-      );
+      );*/
     }
   }
 
@@ -323,6 +354,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     10.heightBox,
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
