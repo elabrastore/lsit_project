@@ -105,40 +105,118 @@ class _OrderScreenState extends State<OrderScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 InstaImageViewer(
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      height: 80,
-                                      width: 80,
-                                      child: Image.network(
-                                        orderModel.productImages[0],
-                                        fit: BoxFit.cover,
-                                      )),
+                                  child: SizedBox(
+                                    height: 80,
+                                    width: 80,
+                                    child: Image.network(
+                                      orderModel.productImages[0],
+                                      fit: BoxFit.fill,
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          // Image is fully loaded, show the actual image
+                                          return child;
+                                        } else {
+                                          // Image is still loading, show a loading indicator
+                                          return Center(
+                                            child: Column(
+                                              children: [
+                                                const CircularProgressIndicator(
+                                                  backgroundColor: Colors.white,
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation(
+                                                          Colors.grey),
+                                                ),
+                                                5.heightBox,
+                                                "Load..."
+                                                    .text
+                                                    .size(11)
+                                                    .white
+                                                    .make(),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
                                 ),
                                 InstaImageViewer(
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      height: 80,
-                                      width: 80,
-                                      child: Image.network(
-                                        orderModel.productImages[1],
-                                        fit: BoxFit.cover,
-                                      )),
+                                  child: SizedBox(
+                                    height: 80,
+                                    width: 80,
+                                    child: Image.network(
+                                      orderModel.productImages[1],
+                                      fit: BoxFit.fill,
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          // Image is fully loaded, show the actual image
+                                          return child;
+                                        } else {
+                                          // Image is still loading, show a loading indicator
+                                          return Center(
+                                            child: Column(
+                                              children: [
+                                                const CircularProgressIndicator(
+                                                  backgroundColor: Colors.white,
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation(
+                                                          Colors.grey),
+                                                ),
+                                                5.heightBox,
+                                                "Load..."
+                                                    .text
+                                                    .size(11)
+                                                    .white
+                                                    .make(),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
                                 ),
                                 InstaImageViewer(
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      height: 80,
-                                      width: 80,
-                                      child: Image.network(
-                                        orderModel.productImages[2],
-                                        fit: BoxFit.cover,
-                                      )),
+                                  child: SizedBox(
+                                    height: 80,
+                                    width: 80,
+                                    child: Image.network(
+                                      orderModel.productImages[2],
+                                      fit: BoxFit.fill,
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          // Image is fully loaded, show the actual image
+                                          return child;
+                                        } else {
+                                          // Image is still loading, show a loading indicator
+                                          return Center(
+                                            child: Column(
+                                              children: [
+                                                const CircularProgressIndicator(
+                                                  backgroundColor: Colors.white,
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation(
+                                                          Colors.grey),
+                                                ),
+                                                5.heightBox,
+                                                "Load..."
+                                                    .text
+                                                    .size(11)
+                                                    .white
+                                                    .make(),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

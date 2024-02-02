@@ -339,7 +339,7 @@ class _CardSceenState extends State<CardSceen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const TextGradient(
-                data: "Total Amount",
+                data: "Total",
                 size: 20,
                 weight: FontWeight.bold,
               ),

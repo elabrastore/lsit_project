@@ -216,7 +216,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                         child: CachedNetworkImage(
                           imageUrl: imageUrls,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                           width: Get.width - 10,
                           placeholder: (context, url) => const ColoredBox(
                             color: Colors.white,
@@ -234,6 +234,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   scrollDirection: Axis.horizontal,
                   autoPlay: true,
                   aspectRatio: 2.5,
+                  height: 300.0,
                   viewportFraction: 1,
                 )),
             Padding(
@@ -250,17 +251,33 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: Container(
                           alignment: Alignment.topLeft,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               widget.productModel.isSale == true &&
                                       widget.productModel.salePrice != ""
-                                  ? "RS: ${widget.productModel.salePrice}"
+                                  ? "PKR ${widget.productModel.salePrice} 🎉🎉"
                                       .text
                                       .fontWeight(FontWeight.bold)
+                                      .size(20)
                                       .make()
-                                  : "RS: ${widget.productModel.fullPrice}"
+                                  : "PKR ${widget.productModel.fullPrice} "
                                       .text
                                       .fontWeight(FontWeight.bold)
+                                      .size(20)
+                                      .make(),
+                              10.widthBox,
+                              widget.productModel.isSale == true
+                                  ? Text(
+                                      "${widget.productModel.fullPrice} PKR",
+                                      style: const TextStyle(
+                                        decoration: TextDecoration.lineThrough,
+                                        fontSize: 15,
+                                        color: Colors.deepOrange,
+                                      ),
+                                    )
+                                  : "Hurry Up!! buy Now 🎉🎊"
+                                      .text
+                                      .bold
+                                      .color(Colors.deepOrangeAccent)
                                       .make(),
                             ],
                           )),
@@ -296,10 +313,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           alignment: Alignment.topLeft,
                           child: Column(
                             children: [
-                              const TextGradient(
-                                data: "Product Description:",
-                                weight: FontWeight.bold,
-                                size: 17,
+                              const Row(
+                                children: [
+                                  TextGradient(
+                                    data: "Product Description:",
+                                    weight: FontWeight.bold,
+                                    size: 20,
+                                  ),
+                                ],
                               ),
                               " ${widget.productModel.productDescription}"
                                   .text
@@ -308,50 +329,104 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           )),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InstaImageViewer(
-                          child: Container(
-                        height: 300,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  widget.productModel.productImages[0]),
-                              fit: BoxFit.cover),
-                        ),
-                      )),
-                    ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: InstaImageViewer(
+                          child: Image.network(
+                            widget.productModel.productImages[0],
+                            fit: BoxFit.contain,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                // Image is fully loaded, show the actual image
+                                return child;
+                              } else {
+                                // Image is still loading, show a loading indicator
+                                return Center(
+                                  child: Column(
+                                    children: [
+                                      const CircularProgressIndicator(
+                                        backgroundColor: Colors.orange,
+                                        valueColor: AlwaysStoppedAnimation(
+                                            Colors.deepOrangeAccent),
+                                      ),
+                                      5.heightBox,
+                                      "Image is loading ....."
+                                          .text
+                                          .size(16)
+                                          .make(),
+                                    ],
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        )),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InstaImageViewer(
-                          child: Container(
-                        height: 300,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  widget.productModel.productImages[1]),
-                              fit: BoxFit.cover),
-                        ),
-                      )),
-                    ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: InstaImageViewer(
+                          child: Image.network(
+                            widget.productModel.productImages[1],
+                            fit: BoxFit.contain,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                // Image is fully loaded, show the actual image
+                                return child;
+                              } else {
+                                // Image is still loading, show a loading indicator
+                                return Center(
+                                  child: Column(
+                                    children: [
+                                      const CircularProgressIndicator(
+                                        backgroundColor: Colors.orange,
+                                        valueColor: AlwaysStoppedAnimation(
+                                            Colors.deepOrangeAccent),
+                                      ),
+                                      5.heightBox,
+                                      "Image is loading ....."
+                                          .text
+                                          .size(16)
+                                          .make(),
+                                    ],
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        )),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InstaImageViewer(
-                          child: Container(
-                        height: 300,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  widget.productModel.productImages[2]),
-                              fit: BoxFit.cover),
-                        ),
-                      )),
-                    ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: InstaImageViewer(
+                          child: Image.network(
+                            widget.productModel.productImages[2],
+                            fit: BoxFit.contain,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                // Image is fully loaded, show the actual image
+                                return child;
+                              } else {
+                                // Image is still loading, show a loading indicator
+                                return Center(
+                                  child: Column(
+                                    children: [
+                                      const CircularProgressIndicator(
+                                        backgroundColor: Colors.orange,
+                                        valueColor: AlwaysStoppedAnimation(
+                                            Colors.deepOrangeAccent),
+                                      ),
+                                      5.heightBox,
+                                      "Image is loading ....."
+                                          .text
+                                          .size(16)
+                                          .make(),
+                                    ],
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        )),
                     10.heightBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

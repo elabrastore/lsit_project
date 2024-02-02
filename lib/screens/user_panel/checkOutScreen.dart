@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 import 'package:list_fyp_project/models/Card_model.dart';
+import 'package:list_fyp_project/screens/widgets/textGredient.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
@@ -65,7 +66,7 @@ class _CardSceenState extends State<CheckOutScreen> {
         ),
         title: Align(
           alignment: Alignment.center,
-          child: "CheckOut Screen"
+          child: "CheckOut"
               .text
               .fontWeight(FontWeight.bold)
               .color(Colors.white)
@@ -246,7 +247,11 @@ class _CardSceenState extends State<CheckOutScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              " Total".text.size(16).bold.make(),
+              const TextGradient(
+                data: "Total Amount",
+                size: 20,
+                weight: FontWeight.bold,
+              ),
               15.widthBox,
               Obx(
                 () =>
@@ -267,7 +272,7 @@ class _CardSceenState extends State<CheckOutScreen> {
                 child: "Confirm Order"
                     .text
                     .color(Colors.white)
-                    .size(17)
+                    .size(14)
                     .bold
                     .make(),
               ),
