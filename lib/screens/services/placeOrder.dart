@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:list_fyp_project/models/order_model.dart';
+import 'package:list_fyp_project/screens/constant/animation.dart';
+import 'package:list_fyp_project/screens/user_panel/orderScreen.dart';
+import 'package:lottie/lottie.dart';
 
 import '../aftergooglesignin.dart';
 import 'generate-OrderId-service.dart';
@@ -18,6 +21,7 @@ void placeOrder(
     required String customeraddress,
     required String customerdeviceToken}) async {
   final user = FirebaseAuth.instance.currentUser;
+
   EasyLoading.show(status: "Please wait...");
 
   if (user != null) {
@@ -93,12 +97,30 @@ void placeOrder(
         }
       }
       print("order conformed");
-      Get.snackbar("Order Conder", "Thanks for order!",
-          backgroundColor: Colors.orange,
-          colorText: Colors.white,
-          duration: const Duration(seconds: 5));
+
       EasyLoading.dismiss();
       Get.offAll(() => const AfterGoogleSignIn());
+      Get.defaultDialog(
+          content:
+              SizedBox(height: 100, width: 100, child: Lottie.asset(orderC)),
+          title: "Order Confirmed",
+          titleStyle: const TextStyle(
+              color: Color.fromARGB(255, 4, 127, 68),
+              fontWeight: FontWeight.bold,
+              fontSize: 17),
+          middleText: "Your Order is confirmed",
+          middleTextStyle:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          backgroundColor: Colors.white,
+          radius: 10,
+          textCancel: "Cancel",
+          cancelTextColor: Colors.white,
+          onConfirm: () {
+            Get.offAll(() => const OrderScreen());
+          },
+          confirmTextColor: Colors.white,
+          buttonColor: const Color.fromARGB(255, 4, 127, 68),
+          textConfirm: "Order Status");
     } catch (e) {
       print("error $e");
     }

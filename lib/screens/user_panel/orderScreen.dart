@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, avoid_print, sort_child_properties_last
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -108,37 +109,18 @@ class _OrderScreenState extends State<OrderScreen> {
                                   child: SizedBox(
                                     height: 80,
                                     width: 80,
-                                    child: Image.network(
-                                      orderModel.productImages[0],
-                                      fit: BoxFit.fill,
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent? loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          // Image is fully loaded, show the actual image
-                                          return child;
-                                        } else {
-                                          // Image is still loading, show a loading indicator
-                                          return Center(
-                                            child: Column(
-                                              children: [
-                                                const CircularProgressIndicator(
-                                                  backgroundColor: Colors.white,
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation(
-                                                          Colors.grey),
-                                                ),
-                                                5.heightBox,
-                                                "Load..."
-                                                    .text
-                                                    .size(11)
-                                                    .white
-                                                    .make(),
-                                              ],
-                                            ),
-                                          );
-                                        }
-                                      },
+                                    child: CachedNetworkImage(
+                                      imageUrl: orderModel.productImages[0],
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: Colors.orange,
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Colors.deepOrangeAccent),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -146,37 +128,18 @@ class _OrderScreenState extends State<OrderScreen> {
                                   child: SizedBox(
                                     height: 80,
                                     width: 80,
-                                    child: Image.network(
-                                      orderModel.productImages[1],
-                                      fit: BoxFit.fill,
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent? loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          // Image is fully loaded, show the actual image
-                                          return child;
-                                        } else {
-                                          // Image is still loading, show a loading indicator
-                                          return Center(
-                                            child: Column(
-                                              children: [
-                                                const CircularProgressIndicator(
-                                                  backgroundColor: Colors.white,
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation(
-                                                          Colors.grey),
-                                                ),
-                                                5.heightBox,
-                                                "Load..."
-                                                    .text
-                                                    .size(11)
-                                                    .white
-                                                    .make(),
-                                              ],
-                                            ),
-                                          );
-                                        }
-                                      },
+                                    child: CachedNetworkImage(
+                                      imageUrl: orderModel.productImages[1],
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: Colors.orange,
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Colors.deepOrangeAccent),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -184,37 +147,18 @@ class _OrderScreenState extends State<OrderScreen> {
                                   child: SizedBox(
                                     height: 80,
                                     width: 80,
-                                    child: Image.network(
-                                      orderModel.productImages[2],
-                                      fit: BoxFit.fill,
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent? loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          // Image is fully loaded, show the actual image
-                                          return child;
-                                        } else {
-                                          // Image is still loading, show a loading indicator
-                                          return Center(
-                                            child: Column(
-                                              children: [
-                                                const CircularProgressIndicator(
-                                                  backgroundColor: Colors.white,
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation(
-                                                          Colors.grey),
-                                                ),
-                                                5.heightBox,
-                                                "Load..."
-                                                    .text
-                                                    .size(11)
-                                                    .white
-                                                    .make(),
-                                              ],
-                                            ),
-                                          );
-                                        }
-                                      },
+                                    child: CachedNetworkImage(
+                                      imageUrl: orderModel.productImages[2],
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: Colors.orange,
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Colors.deepOrangeAccent),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

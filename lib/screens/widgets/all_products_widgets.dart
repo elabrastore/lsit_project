@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
@@ -91,11 +92,21 @@ class AllProductsWidget extends StatelessWidget {
                       title: Center(
                         child: Text(
                           productModel.productName,
-                          style: const TextStyle(fontSize: 12.0),
+                          style: const TextStyle(
+                              fontSize: 12.0, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      footer: Center(
-                          child: "Rs ${productModel.fullPrice}".text.make()),
+                      footer: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          "Rs ${productModel.fullPrice}".text.make(),
+                          Icon(
+                            CupertinoIcons.cart,
+                            size: 20,
+                            color: Colors.deepOrange,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

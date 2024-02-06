@@ -75,7 +75,7 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
         ),
         title: Align(
           alignment: Alignment.center,
-          child: "E-Labra"
+          child: "ANAS SHOP"
               .text
               .fontWeight(FontWeight.bold)
               .color(Colors.white)

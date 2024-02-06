@@ -1,8 +1,11 @@
 // ignore_for_file: must_be_immutable, deprecated_member_use, prefer_const_declarations, non_constant_identifier_names, avoid_print
 
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -30,100 +33,104 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   User? user = FirebaseAuth.instance.currentUser;
+
   Future<void> checkProduct(
       {required String uId, int Quantityincrement = 1}) async {
-    EasyLoading.show(status: "Please Wait..");
-    final DocumentReference documentReference = FirebaseFirestore.instance
-        .collection("card")
-        .doc(uId)
-        .collection("cardorders")
-        .doc(widget.productModel.productId.toString());
-    DocumentSnapshot snapshot = await documentReference.get();
-
-    if (snapshot.exists) {
-      int currentQuantity = snapshot["productQuantity"];
-      int updateQuantity = currentQuantity + Quantityincrement;
-      double totalPrice = double.parse(widget.productModel.isSale == true
-              ? widget.productModel.salePrice
-              : widget.productModel.fullPrice) *
-          updateQuantity;
-
-      await documentReference.update(
-          {"productQuantity": updateQuantity, "productTotalPrice": totalPrice});
-
-      EasyLoading.dismiss();
-
-      Get.defaultDialog(
-          title: "Product Already Exist ",
-          titleStyle: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),
-          middleText: "Product already exist in the cart and Add One More ",
-          middleTextStyle:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          backgroundColor: const Color.fromARGB(255, 255, 136, 0),
-          radius: 10,
-          textCancel: "Cancel",
-          onConfirm: () {
-            Get.to(() => const CheckOutScreen());
-          },
-          textConfirm: "CheckOut");
-
-      Get.showSnackbar(
-        const GetSnackBar(
-          backgroundColor: Colors.red,
-          title: "Product Already Exist ",
-          message: "Product already exist in the cart and Add One More ",
-          icon: Icon(Icons.refresh),
-          duration: Duration(seconds: 3),
-        ),
-      );
-
-      print("product exist in card");
-    } else {
-      await FirebaseFirestore.instance
+    try {
+      EasyLoading.show(status: "Please Wait..");
+      final DocumentReference documentReference = FirebaseFirestore.instance
           .collection("card")
           .doc(uId)
-          .set({"uId": uId, "createdAt": DateTime.now()});
+          .collection("cardorders")
+          .doc(widget.productModel.productId.toString());
+      DocumentSnapshot snapshot = await documentReference.get();
 
-      EasyLoading.show(status: "plaese wait");
+      if (snapshot.exists) {
+        int currentQuantity = snapshot["productQuantity"];
+        int updateQuantity = currentQuantity + Quantityincrement;
+        double totalPrice = double.parse(widget.productModel.isSale == true
+                ? widget.productModel.salePrice
+                : widget.productModel.fullPrice) *
+            updateQuantity;
 
-      CartModel cartModel = CartModel(
-          productId: widget.productModel.productId,
-          categoryId: widget.productModel.categoryId,
-          productName: widget.productModel.productName,
-          categoryName: widget.productModel.categoryName,
-          salePrice: widget.productModel.salePrice,
-          fullPrice: widget.productModel.fullPrice,
-          productImages: widget.productModel.productImages,
-          deliveryTime: widget.productModel.deliveryTime,
-          isSale: widget.productModel.isSale,
-          productDescription: widget.productModel.productDescription,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-          productQuantity: 1,
-          productTotalPrice: double.parse(widget.productModel.isSale == true
-              ? widget.productModel.salePrice
-              : widget.productModel.fullPrice));
-      await documentReference.set(cartModel.toMap());
+        await documentReference.update({
+          "productQuantity": updateQuantity,
+          "productTotalPrice": totalPrice
+        });
 
-      EasyLoading.dismiss();
+        EasyLoading.dismiss();
 
-      Get.defaultDialog(
-          title: "Cart Now",
-          titleStyle: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),
-          middleText: "Product added into cart",
-          middleTextStyle:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          backgroundColor: const Color.fromARGB(255, 255, 136, 0),
-          radius: 10,
-          textCancel: "Cancel",
-          onConfirm: () {
-            Get.to(() => const CardSceen());
-          },
-          textConfirm: "Cart");
+        Get.defaultDialog(
+            title: "Product Already Exist ",
+            titleStyle: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),
+            middleText: "Product already exist in the cart and Add One More ",
+            middleTextStyle: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
+            backgroundColor: const Color.fromARGB(255, 255, 136, 0),
+            radius: 10,
+            textCancel: "Cancel",
+            onConfirm: () {
+              Get.to(() => const CheckOutScreen());
+            },
+            textConfirm: "CheckOut");
 
-      /* Get.showSnackbar(
+        Get.showSnackbar(
+          const GetSnackBar(
+            backgroundColor: Colors.red,
+            title: "Product Already Exist ",
+            message: "Product already exist in the cart and Add One More ",
+            icon: Icon(Icons.refresh),
+            duration: Duration(seconds: 3),
+          ),
+        );
+
+        print("product exist in card");
+      } else {
+        await FirebaseFirestore.instance
+            .collection("card")
+            .doc(uId)
+            .set({"uId": uId, "createdAt": DateTime.now()});
+
+        EasyLoading.show(status: "plaese wait");
+
+        CartModel cartModel = CartModel(
+            productId: widget.productModel.productId,
+            categoryId: widget.productModel.categoryId,
+            productName: widget.productModel.productName,
+            categoryName: widget.productModel.categoryName,
+            salePrice: widget.productModel.salePrice,
+            fullPrice: widget.productModel.fullPrice,
+            productImages: widget.productModel.productImages,
+            deliveryTime: widget.productModel.deliveryTime,
+            isSale: widget.productModel.isSale,
+            productDescription: widget.productModel.productDescription,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+            productQuantity: 1,
+            productTotalPrice: double.parse(widget.productModel.isSale == true
+                ? widget.productModel.salePrice
+                : widget.productModel.fullPrice));
+        await documentReference.set(cartModel.toMap());
+
+        EasyLoading.dismiss();
+
+        Get.defaultDialog(
+            title: "Cart Now",
+            titleStyle: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),
+            middleText: "Product added into cart",
+            middleTextStyle: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
+            backgroundColor: const Color.fromARGB(255, 255, 136, 0),
+            radius: 10,
+            textCancel: "Cancel",
+            onConfirm: () {
+              Get.to(() => const CardSceen());
+            },
+            textConfirm: "Cart");
+
+        /* Get.showSnackbar(
         const GetSnackBar(
           backgroundColor: Colors.orange,
           title: "Product added into cart Please check",
@@ -132,6 +139,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           duration: Duration(seconds: 3),
         ),
       );*/
+      }
+    } catch (e) {
+      log(e.toString());
+      EasyLoading.dismiss();
+      Get.snackbar(
+        'Internet Issue',
+        '$e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
@@ -329,104 +347,47 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           )),
                     ),
                     Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InstaImageViewer(
-                          child: Image.network(
-                            widget.productModel.productImages[0],
-                            fit: BoxFit.contain,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                // Image is fully loaded, show the actual image
-                                return child;
-                              } else {
-                                // Image is still loading, show a loading indicator
-                                return Center(
-                                  child: Column(
-                                    children: [
-                                      const CircularProgressIndicator(
-                                        backgroundColor: Colors.orange,
-                                        valueColor: AlwaysStoppedAnimation(
-                                            Colors.deepOrangeAccent),
-                                      ),
-                                      5.heightBox,
-                                      "Image is loading ....."
-                                          .text
-                                          .size(16)
-                                          .make(),
-                                    ],
-                                  ),
-                                );
-                              }
-                            },
+                      padding: const EdgeInsets.all(8.0),
+                      child: InstaImageViewer(
+                        child: CachedNetworkImage(
+                          imageUrl: widget.productModel.productImages[0],
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(
+                            backgroundColor: Colors.orange,
+                            valueColor:
+                                AlwaysStoppedAnimation(Colors.deepOrangeAccent),
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                     Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InstaImageViewer(
-                          child: Image.network(
-                            widget.productModel.productImages[1],
-                            fit: BoxFit.contain,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                // Image is fully loaded, show the actual image
-                                return child;
-                              } else {
-                                // Image is still loading, show a loading indicator
-                                return Center(
-                                  child: Column(
-                                    children: [
-                                      const CircularProgressIndicator(
-                                        backgroundColor: Colors.orange,
-                                        valueColor: AlwaysStoppedAnimation(
-                                            Colors.deepOrangeAccent),
-                                      ),
-                                      5.heightBox,
-                                      "Image is loading ....."
-                                          .text
-                                          .size(16)
-                                          .make(),
-                                    ],
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        )),
+                            child: CachedNetworkImage(
+                                imageUrl: widget.productModel.productImages[1],
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(
+                                      backgroundColor: Colors.orange,
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Colors.deepOrangeAccent),
+                                    )))),
                     Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InstaImageViewer(
-                          child: Image.network(
-                            widget.productModel.productImages[2],
-                            fit: BoxFit.contain,
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                // Image is fully loaded, show the actual image
-                                return child;
-                              } else {
-                                // Image is still loading, show a loading indicator
-                                return Center(
-                                  child: Column(
-                                    children: [
-                                      const CircularProgressIndicator(
-                                        backgroundColor: Colors.orange,
-                                        valueColor: AlwaysStoppedAnimation(
-                                            Colors.deepOrangeAccent),
-                                      ),
-                                      5.heightBox,
-                                      "Image is loading ....."
-                                          .text
-                                          .size(16)
-                                          .make(),
-                                    ],
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        )),
+                            child: CachedNetworkImage(
+                                imageUrl: widget.productModel.productImages[2],
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(
+                                      backgroundColor: Colors.orange,
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Colors.deepOrangeAccent),
+                                    )))),
                     10.heightBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

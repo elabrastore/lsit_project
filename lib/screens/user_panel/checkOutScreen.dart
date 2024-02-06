@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, avoid_print, use_build_context_synchronously
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -161,30 +162,60 @@ class _CardSceenState extends State<CheckOutScreen> {
                               children: [
                                 InstaImageViewer(
                                   child: SizedBox(
-                                      height: 80,
-                                      width: 80,
-                                      child: Image.network(
-                                        cartModel.productImages[0],
-                                        fit: BoxFit.cover,
-                                      )),
+                                    height: 80,
+                                    width: 80,
+                                    child: CachedNetworkImage(
+                                      imageUrl: cartModel.productImages[0],
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: Colors.orange,
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Colors.deepOrangeAccent),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 InstaImageViewer(
                                   child: SizedBox(
-                                      height: 80,
-                                      width: 80,
-                                      child: Image.network(
-                                        cartModel.productImages[1],
-                                        fit: BoxFit.cover,
-                                      )),
+                                    height: 80,
+                                    width: 80,
+                                    child: CachedNetworkImage(
+                                      imageUrl: cartModel.productImages[1],
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: Colors.orange,
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Colors.deepOrangeAccent),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 InstaImageViewer(
                                   child: SizedBox(
-                                      height: 80,
-                                      width: 80,
-                                      child: Image.network(
-                                        cartModel.productImages[2],
-                                        fit: BoxFit.cover,
-                                      )),
+                                    height: 80,
+                                    width: 80,
+                                    child: CachedNetworkImage(
+                                      imageUrl: cartModel.productImages[2],
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: Colors.orange,
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Colors.deepOrangeAccent),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -264,7 +295,6 @@ class _CardSceenState extends State<CheckOutScreen> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
-                  fixedSize: const Size(155, 50),
                 ),
                 onPressed: () {
                   bottomsheet();
