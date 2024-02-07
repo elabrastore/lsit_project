@@ -114,7 +114,7 @@ void placeOrder(
           backgroundColor: Colors.white,
           radius: 10,
           textCancel: "Cancel",
-          cancelTextColor: Colors.white,
+          cancelTextColor: Colors.black,
           onConfirm: () {
             Get.offAll(() => const OrderScreen());
           },
