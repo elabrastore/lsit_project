@@ -389,74 +389,68 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           Colors.deepOrangeAccent),
                                     )))),
                     10.heightBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orange,
-                              fixedSize: const Size(155, 50),
-                            ),
-                            onPressed: () async {
-                              await checkProduct(uId: user!.uid);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Icon(
-                                  Icons.shopping_bag_outlined,
-                                  color: Colors.white,
-                                ),
-                                "Add To Card"
-                                    .text
-                                    .color(Colors.white)
-                                    .size(14)
-                                    .bold
-                                    .make(),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 5, 211, 36),
-                              fixedSize: const Size(147, 50),
-                            ),
-                            onPressed: () {
-                              sendMessageOnWhatsApp(
-                                productModel: widget.productModel,
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Icon(
-                                  Icons.message,
-                                  color: Colors.white,
-                                ),
-                                "Whatsapp"
-                                    .text
-                                    .color(Colors.white)
-                                    .size(15)
-                                    .bold
-                                    .make(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),
             )
           ],
         ),
+      ),
+      bottomNavigationBar: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius
+                    .zero, // Set border radius to zero for a square button
+              ),
+              fixedSize: const Size(155, 50),
+            ),
+            onPressed: () async {
+              await checkProduct(uId: user!.uid);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Icon(
+                  Icons.shopping_bag_outlined,
+                  color: Colors.white,
+                ),
+                "Add To Card".text.color(Colors.white).size(14).bold.make(),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius
+                      .zero, // Set border radius to zero for a square button
+                ),
+                backgroundColor: const Color.fromARGB(255, 5, 211, 36),
+                fixedSize: const Size(147, 50),
+              ),
+              onPressed: () {
+                sendMessageOnWhatsApp(
+                  productModel: widget.productModel,
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.message,
+                    color: Colors.white,
+                  ),
+                  "Whatsapp".text.color(Colors.white).size(15).bold.make(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

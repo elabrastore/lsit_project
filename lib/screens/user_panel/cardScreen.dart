@@ -386,6 +386,10 @@ class _CardSceenState extends State<CardSceen> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 255, 136, 0),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius
+                        .zero, // Set border radius to zero for a square button
+                  ),
                   fixedSize: const Size(155, 50),
                 ),
                 onPressed: () {
@@ -430,71 +434,3 @@ class _CardSceenState extends State<CardSceen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
- /*Container(
-          child: ListView.builder(
-        itemCount: 20,
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Card(
-            elevation: 4,
-            child: ListTile(
-              title: "new dress for men".text.make(),
-              leading: CircleAvatar(
-                child: "Rao".text.white.make(),
-                backgroundColor: Colors.orange,
-              ),
-              subtitle: Row(
-                children: [
-                  "2000".text.make(),
-                  CircleAvatar(
-                    backgroundColor: Colors.orange,
-                    child: "+".text.white.make(),
-                    radius: 14,
-                  ),
-                  8.widthBox,
-                  CircleAvatar(
-                    backgroundColor: Colors.orange,
-                    child: "-".text.white.bold.make(),
-                    radius: 14,
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-      )),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 5.0),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              " Total".text.size(16).bold.make(),
-              15.widthBox,
-              "RS 12000".text.size(16).bold.make(),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  fixedSize: const Size(155, 50),
-                ),
-                onPressed: () {},
-                child: "CheckOut".text.color(Colors.white).size(17).bold.make(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );*/

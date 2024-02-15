@@ -294,6 +294,10 @@ class _CardSceenState extends State<CheckOutScreen> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius
+                        .zero, // Set border radius to zero for a square button
+                  ),
                   backgroundColor: Colors.orange,
                 ),
                 onPressed: () {
@@ -421,6 +425,10 @@ class _CardSceenState extends State<CheckOutScreen> {
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius
+                            .zero, // Set border radius to zero for a square button
+                      ),
                       fixedSize:
                           Size(MediaQuery.of(context).size.width - 32, 50),
                     ),

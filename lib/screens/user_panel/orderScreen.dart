@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 import 'package:list_fyp_project/models/order_model.dart';
+import 'package:list_fyp_project/screens/constant/animation.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
@@ -211,30 +213,57 @@ class _OrderScreenState extends State<OrderScreen> {
                                     .white
                                     .bold
                                     .make(),
-                                orderModel.status == true
-                                    ? Container(
-                                        color: Colors.green,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: "Delived"
-                                              .text
-                                              .color(Colors.white)
-                                              .bold
-                                              .make(),
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: orderModel.status == true
+                                              ? Lottie.asset(
+                                                  orderC,
+                                                  width: 50,
+                                                  height: 50,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Lottie.asset(
+                                                  process,
+                                                  width: 50,
+                                                  height: 50,
+                                                  fit: BoxFit.cover,
+                                                ),
                                         ),
-                                      )
-                                    : Container(
-                                        color: Colors.red,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: "Order Pending..."
-                                              .text
-                                              .bold
-                                              .size(16)
-                                              .color(Colors.white)
-                                              .make(),
-                                        ),
-                                      ),
+                                        orderModel.status == true
+                                            ? Container(
+                                                color: Colors.green,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: "Delived"
+                                                      .text
+                                                      .color(Colors.white)
+                                                      .bold
+                                                      .make(),
+                                                ),
+                                              )
+                                            : Container(
+                                                color: Colors.red,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: "Order in Process..."
+                                                      .text
+                                                      .bold
+                                                      .size(16)
+                                                      .color(Colors.white)
+                                                      .make(),
+                                                ),
+                                              ),
+                                      ],
+                                    )
+                                  ],
+                                )
                               ],
                             ),
                           ],

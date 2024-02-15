@@ -8,3 +8,4 @@ const profile = 'assets/animations/profile.json';
 const price = 'assets/animations/price.json';
 const emptyBox = 'assets/animations/EmptyBox.json';
 const orderC = 'assets/animations/orderConfirmed.json';
+const process = 'assets/animations/process.json';
