@@ -1,547 +1,116 @@
-
- /*if (ex.code == 'weak-password') {
-        Get.snackbar("Error", "The password provided is too weak.",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      } else if (ex.code == 'invalid-credential') {
-        Get.snackbar("invalid-credential", "Please sign Up first",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      } else if (ex.code == "network-request-failed") {
-        Get.snackbar("network-request-failed", "Please Check Your internet!!",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      } else {
-        Get.snackbar("Error", "Error: $ex",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      }
-
-
-
-
-
-
-      // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, unused_local_variable, unnecessary_null_comparison, file_names
-
-import 'package:e_comm/controllers/sign-in-controller.dart';
-import 'package:e_comm/screens/admin-panel/admin-main-screen.dart';
-import 'package:e_comm/screens/auth-ui/sign-up-screen.dart';
-import 'package:e_comm/screens/user-panel/main-screen.dart';
-import 'package:e_comm/utils/app-constant.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-
-import '../../controllers/get-user-data-controller.dart';
-import 'forget-password-screen.dart';
-
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+/*class AllcategoriesScreen extends StatefulWidget {
+  const AllcategoriesScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<AllcategoriesScreen> createState() => _AllcategoriesScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
-  final SignInController signInController = Get.put(SignInController());
-  final GetUserDataController getUserDataController =
-      Get.put(GetUserDataController());
-  TextEditingController userEmail = TextEditingController();
-  TextEditingController userPassword = TextEditingController();
+class _AllcategoriesScreenState extends State<AllcategoriesScreen> {
+  late List<CategoriesModel> _categories;
+  late List<CategoriesModel> _filteredCategories;
+
+  TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _categories = [];
+    _filteredCategories = [];
+    fetchCategories();
+  }
+
+  void fetchCategories() async {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('catageries').get();
+    List<CategoriesModel> categories = snapshot.docs.map((doc) {
+      return CategoriesModel(
+        categoryId: doc['categoryId'],
+        catagoryImag: doc['catagoryImag'],
+        catagoryName: doc['catagoryName'],
+        createdAt: doc['createdAt'],
+        updateAt: doc['updateAt'],
+      );
+    }).toList();
+
+    setState(() {
+      _categories = categories;
+      _filteredCategories = categories;
+    });
+  }
+
+  void filterCategories(String query) {
+    List<CategoriesModel> filteredList = _categories.where((category) {
+      return category.catagoryName.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
+    setState(() {
+      _filteredCategories = filteredList;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppConstant.appScendoryColor,
-          centerTitle: true,
-          title: Text(
-            "Sign In",
-            style: TextStyle(color: AppConstant.appTextColor),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(backgruond1), fit: BoxFit.fill)),
+        ),
+        title: Align(
+          alignment: Alignment.center,
+          child: TextField(
+            controller: _searchController,
+            onChanged: (query) {
+              filterCategories(query);
+            },
+            decoration: InputDecoration(
+              hintText: 'Search Categories',
+              hintStyle: TextStyle(color: Colors.white70),
+              border: InputBorder.none,
+            ),
+            style: TextStyle(color: Colors.white),
           ),
         ),
-        body: Container(
-          child: Column(
-            children: [
-              isKeyboardVisible
-                  ? Text("Welcome to my app")
-                  : Column(
-                      children: [
-                        Lottie.asset('assets/images/splash-icon.json'),
-                      ],
-                    ),
-              SizedBox(
-                height: Get.height / 20,
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                width: Get.width,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextFormField(
-                    controller: userEmail,
-                    cursorColor: AppConstant.appScendoryColor,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintText: "Email",
-                      prefixIcon: Icon(Icons.email),
-                      contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                width: Get.width,
-                child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Obx(
-                      () => TextFormField(
-                        controller: userPassword,
-                        obscureText: signInController.isPasswordVisible.value,
-                        cursorColor: AppConstant.appScendoryColor,
-                        keyboardType: TextInputType.visiblePassword,
-                        decoration: InputDecoration(
-                          hintText: "Password",
-                          prefixIcon: Icon(Icons.password),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              signInController.isPasswordVisible.toggle();
-                            },
-                            child: signInController.isPasswordVisible.value
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
-                          ),
-                          contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                    )),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 10.0),
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () {
-                    Get.to(() => ForgetPasswordScreen());
-                  },
+      ),
+      body: GridView.builder(
+        itemCount: _filteredCategories.length,
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 3,
+          crossAxisSpacing: 3,
+          childAspectRatio: 1.19,
+        ),
+        itemBuilder: (context, index) {
+          CategoriesModel category = _filteredCategories[index];
+          return GestureDetector(
+            onTap: () {
+              Get.to(() => AllsingleCategoriesproductScreen(
+                  categoryId: category.categoryId));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FillImageCard(
+                borderRadius: 20.0,
+                width: Get.width / 2.4,
+                heightImage: Get.height / 10,
+                imageProvider: CachedNetworkImageProvider(category.catagoryImag),
+                title: Center(
                   child: Text(
-                    "Forget Password?",
-                    style: TextStyle(
-                        color: AppConstant.appScendoryColor,
-                        fontWeight: FontWeight.bold),
+                    category.catagoryName,
+                    style: const TextStyle(fontSize: 12.0),
                   ),
                 ),
               ),
-              SizedBox(
-                height: Get.height / 20,
-              ),
-              Material(
-                child: Container(
-                  width: Get.width / 2,
-                  height: Get.height / 18,
-                  decoration: BoxDecoration(
-                    color: AppConstant.appScendoryColor,
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: TextButton(
-                    child: Text(
-                      "SIGN IN",
-                      style: TextStyle(color: AppConstant.appTextColor),
-                    ),
-                    onPressed: () async {
-                      String email = userEmail.text.trim();
-                      String password = userPassword.text.trim();
-
-                      if (email.isEmpty || password.isEmpty) {
-                        Get.snackbar(
-                          "Error",
-                          "Please enter all details",
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: AppConstant.appScendoryColor,
-                          colorText: AppConstant.appTextColor,
-                        );
-                      } else {
-                        UserCredential? userCredential = await signInController
-                            .signInMethod(email, password);
-
-                        var userData = await getUserDataController
-                            .getUserData(userCredential!.user!.uid);
-
-                        if (userCredential != null) {
-                          if (userCredential.user!.emailVerified) {
-                            //
-                            if (userData[0]['isAdmin'] == true) {
-                              Get.snackbar(
-                                "Success Admin Login",
-                                "login Successfully!",
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: AppConstant.appScendoryColor,
-                                colorText: AppConstant.appTextColor,
-                              );
-                              Get.offAll(() => AdminMainScreen());
-                            } else {
-                              Get.offAll(() => MainScreen());
-                              Get.snackbar(
-                                "Success User Login",
-                                "login Successfully!",
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: AppConstant.appScendoryColor,
-                                colorText: AppConstant.appTextColor,
-                              );
-                            }
-                          } else {
-                            Get.snackbar(
-                              "Error",
-                              "Please verify your email before login",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: AppConstant.appScendoryColor,
-                              colorText: AppConstant.appTextColor,
-                            );
-                          }
-                        } else {
-                          Get.snackbar(
-                            "Error",
-                            "Please try again",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: AppConstant.appScendoryColor,
-                            colorText: AppConstant.appTextColor,
-                          );
-                        }
-                      }
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: Get.height / 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account? ",
-                    style: TextStyle(color: AppConstant.appScendoryColor),
-                  ),
-                  GestureDetector(
-                    onTap: () => Get.offAll(() => SignUpScreen()),
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                          color: AppConstant.appScendoryColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      );
-    });
+            ),
+          );
+        },
+      ),
+    );
   }
-}*/
+}
 
-
-
-
-
-
-/* ListTile(
-                    title: Column(
-                      children: [
-                        "Product Quantiy: ${orderModel.productQuantity}"
-                            .text
-                            .make(),
-                        orderModel.productName.text.make(),
-                      ],
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(orderModel.productImages[0]),
-                      backgroundColor: Colors.orange,
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: "${orderModel.productTotalPrice} : PKR"
-                              .toString()
-                              .text
-                              .make(),
-                        ),
-                        orderModel.status == true
-                            ? "Delived".text.color(Colors.green).make()
-                            : "Order Pending...".text.color(Colors.red).make(),
-                      ],
-                    ),
-                  ),*/
-
-
-
-
-
-
-
-                 /*  ListTile(
-                      title: Column(
-                        children: [
-                          "Product Quantiy: ${cartModel.productQuantity}"
-                              .text
-                              .make(),
-                          cartModel.productName.text.make(),
-                        ],
-                      ),
-                      leading: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(),
-                        backgroundColor: Colors.orange,
-                      ),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: "${cartModel.productTotalPrice} : PKR"
-                                .toString()
-                                .text
-                                .make(),
-                          ),
-                          // Product decrement button
-                          GestureDetector(
-                            onTap: () async {
-                              if (cartModel.isSale == true) {
-                                if (cartModel.productQuantity > 1) {
-                                  await FirebaseFirestore.instance
-                                      .collection("card")
-                                      .doc(user!.uid)
-                                      .collection("cardorders")
-                                      .doc(cartModel.productId)
-                                      .update({
-                                    "productQuantity":
-                                        cartModel.productQuantity - 1,
-                                    "productTotalPrice":
-                                        (double.parse(cartModel.salePrice) *
-                                            (cartModel.productQuantity - 1))
-                                  });
-                                }
-                              } else {
-                                if (cartModel.productQuantity > 1) {
-                                  await FirebaseFirestore.instance
-                                      .collection("card")
-                                      .doc(user!.uid)
-                                      .collection("cardorders")
-                                      .doc(cartModel.productId)
-                                      .update({
-                                    "productQuantity":
-                                        cartModel.productQuantity - 1,
-                                    "productTotalPrice":
-                                        (double.parse(cartModel.fullPrice) *
-                                            (cartModel.productQuantity - 1))
-                                  });
-                                }
-                              }
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: Colors.orange,
-                              child: "-".text.white.make(),
-                              radius: 14,
-                            ),
-                          ),
-                          8.widthBox,
-
-                          // Product increment button
-                          GestureDetector(
-                            onTap: () async {
-                              if (cartModel.isSale == true) {
-                                if (cartModel.productQuantity > 0) {
-                                  await FirebaseFirestore.instance
-                                      .collection("card")
-                                      .doc(user!.uid)
-                                      .collection("cardorders")
-                                      .doc(cartModel.productId)
-                                      .update({
-                                    "productQuantity":
-                                        cartModel.productQuantity + 1,
-                                    "productTotalPrice":
-                                        double.parse(cartModel.salePrice) +
-                                            double.parse(cartModel.salePrice) *
-                                                (cartModel.productQuantity)
-                                  });
-                                }
-                              } else {
-                                if (cartModel.productQuantity > 0) {
-                                  await FirebaseFirestore.instance
-                                      .collection("card")
-                                      .doc(user!.uid)
-                                      .collection("cardorders")
-                                      .doc(cartModel.productId)
-                                      .update({
-                                    "productQuantity":
-                                        cartModel.productQuantity + 1,
-                                    "productTotalPrice":
-                                        double.parse(cartModel.fullPrice) +
-                                            double.parse(cartModel.fullPrice) *
-                                                (cartModel.productQuantity)
-                                  });
-                                }
-                              }
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: Colors.orange,
-                              child: "+".text.white.bold.make(),
-                              radius: 14,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),*/
-
-
-
-
-
-
-
-
-
-
-                 /*    Container(
-                        decoration: const BoxDecoration(
-                          color:  Color.fromARGB(255, 255, 128, 1),
-                          
-                        ),
-                        child:  Column(
-                        children: [
-                          "Product Quantiy: ${cartModel.productQuantity}"
-                              .text
-                              .make(),
-                          cartModel.productName.text.make(),
-
-                          
-                        ],
-                      ),
-                      )*/
-
-
-
-
-
-                     /*  Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: "${cartModel.productTotalPrice} : PKR"
-                                .toString()
-                                .text
-                                .make(),
-                          ),
-                          // Product decrement button
-                          GestureDetector(
-                            onTap: () async {
-                              if (cartModel.isSale == true) {
-                                if (cartModel.productQuantity > 1) {
-                                  await FirebaseFirestore.instance
-                                      .collection("card")
-                                      .doc(user!.uid)
-                                      .collection("cardorders")
-                                      .doc(cartModel.productId)
-                                      .update({
-                                    "productQuantity":
-                                        cartModel.productQuantity - 1,
-                                    "productTotalPrice":
-                                        (double.parse(cartModel.salePrice) *
-                                            (cartModel.productQuantity - 1))
-                                  });
-                                }
-                              } else {
-                                if (cartModel.productQuantity > 1) {
-                                  await FirebaseFirestore.instance
-                                      .collection("card")
-                                      .doc(user!.uid)
-                                      .collection("cardorders")
-                                      .doc(cartModel.productId)
-                                      .update({
-                                    "productQuantity":
-                                        cartModel.productQuantity - 1,
-                                    "productTotalPrice":
-                                        (double.parse(cartModel.fullPrice) *
-                                            (cartModel.productQuantity - 1))
-                                  });
-                                }
-                              }
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: Colors.orange,
-                              child: "-".text.white.make(),
-                              radius: 14,
-                            ),
-                          ),
-                          8.widthBox,
-
-                          // Product increment button
-                          GestureDetector(
-                            onTap: () async {
-                              if (cartModel.isSale == true) {
-                                if (cartModel.productQuantity > 0) {
-                                  await FirebaseFirestore.instance
-                                      .collection("card")
-                                      .doc(user!.uid)
-                                      .collection("cardorders")
-                                      .doc(cartModel.productId)
-                                      .update({
-                                    "productQuantity":
-                                        cartModel.productQuantity + 1,
-                                    "productTotalPrice":
-                                        double.parse(cartModel.salePrice) +
-                                            double.parse(cartModel.salePrice) *
-                                                (cartModel.productQuantity)
-                                  });
-                                }
-                              } else {
-                                if (cartModel.productQuantity > 0) {
-                                  await FirebaseFirestore.instance
-                                      .collection("card")
-                                      .doc(user!.uid)
-                                      .collection("cardorders")
-                                      .doc(cartModel.productId)
-                                      .update({
-                                    "productQuantity":
-                                        cartModel.productQuantity + 1,
-                                    "productTotalPrice":
-                                        double.parse(cartModel.fullPrice) +
-                                            double.parse(cartModel.fullPrice) *
-                                                (cartModel.productQuantity)
-                                  });
-                                }
-                              }
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: Colors.orange,
-                              child: "+".text.white.bold.make(),
-                              radius: 14,
-                            ),
-                          )
-                        ],
-                      ),*/
-
-
-
-
-
-                      
+*/

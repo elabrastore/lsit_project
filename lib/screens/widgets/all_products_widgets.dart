@@ -100,7 +100,7 @@ class AllProductsWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           "Rs ${productModel.fullPrice}".text.make(),
-                          Icon(
+                          const Icon(
                             CupertinoIcons.cart,
                             size: 20,
                             color: Colors.deepOrange,

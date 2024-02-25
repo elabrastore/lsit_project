@@ -95,9 +95,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     fixedSize: Size(MediaQuery.of(context).size.width - 32, 50),
                   ),
                   onPressed: () async {
-                    String email = userEmail2.text.trim();
+                    if (_formkey.currentState!.validate()) {
+                      String email = userEmail2.text.trim();
 
-                    /* if (email.isEmpty) {
+                      /* if (email.isEmpty) {
                     Get.snackbar("Error", "Missing Creditials",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Colors.red,
@@ -107,17 +108,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     forgetpasswordController1.forgetPasswordT(email);
                   }*/
 
-                    if (email.isEmpty) {
-                      Get.snackbar(
-                        "Error",
-                        "Please enter all details",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.red,
-                        colorText: Colors.white,
-                      );
-                    } else {
-                      String email = userEmail2.text.trim();
-                      forgetpasswordController1.forgetPasswordT(email);
+                      if (email.isEmpty) {
+                        Get.snackbar(
+                          "Error",
+                          "Please enter all details",
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
+                          colorText: Colors.white,
+                        );
+                      } else {
+                        String email = userEmail2.text.trim();
+                        forgetpasswordController1.forgetPasswordT(email);
+                      }
                     }
                   },
                   child: Row(
