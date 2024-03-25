@@ -26,6 +26,14 @@ class DrawerCustom extends StatefulWidget {
 }
 
 class _DrawerCustomState extends State<DrawerCustom> {
+  late User? _currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUser = FirebaseAuth.instance.currentUser;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,7 +48,43 @@ class _DrawerCustomState extends State<DrawerCustom> {
         ),
         child: Column(
           children: [
-            SizedBox(width: 200, height: 200, child: Lottie.asset(profile)),
+            const SizedBox(
+              height: 17,
+            ),
+            CircleAvatar(
+              radius: 30, // Adjust the size of the avatar as needed
+              backgroundColor:
+                  Colors.grey[300], // Background color of the avatar
+              child: const Icon(
+                Icons.person, // Person icon
+                size: 32, // Size of the person icon
+                color: Colors.deepOrange, // Color of the person icon
+              ),
+            ),
+            _currentUser != null
+                ? ListTile(
+                    title: Center(
+                      child: Text(
+                        _currentUser!.displayName ?? 'not found',
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 5, 60, 104),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    subtitle: Center(
+                      child: Text(
+                        _currentUser!.email ?? 'not found',
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 5, 60, 104),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox(
+                    width: 200, height: 200, child: Lottie.asset(profile)),
             "Version 2.0.0.1".text.bold.white.make(),
             Wrap(
               runSpacing: 10,

@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class bannerController extends GetxController {
-  RxList<String> bannerUrls = RxList<String>([]);
+  RxList<String> bannerUrls = RxList<String>(
+      []); // This variable is a reactive list that holds strings. Reactive means that when this list changes, it automatically updates any part of the user interface that depends on it.
 
   @override
   void onInit() {

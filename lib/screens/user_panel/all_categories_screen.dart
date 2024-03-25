@@ -85,7 +85,7 @@ class _AllcategoriesScreenState extends State<AllcategoriesScreen> {
             },
             decoration: const InputDecoration(
               hintText: 'Search Categories',
-              hintStyle: TextStyle(color: Colors.white70),
+              hintStyle: TextStyle(color: Colors.white),
               border: InputBorder.none,
             ),
             style: const TextStyle(color: Colors.white),

@@ -153,27 +153,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
   }
 
-  static Future<void> sendMessageOnWhatsApp(
-      {required ProductModel productModel}) async {
+  static Future<void> sendMessageOnWhatsApp({
+    required ProductModel productModel,
+  }) async {
     EasyLoading.show(status: "Wait...");
-    final phoneNumber = "+923064279507"; // Include the country code
+    final number = "+923064279507";
     final message =
-        "Hello\nWelcome to E-Labra store\nI want to know about this product\n${productModel.productName}\n${productModel.fullPrice}";
+        "Hello \n Welcome to ANAS Store \n I want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
 
-    final url =
-        "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+    final url = 'https://wa.me/$number?text=${Uri.encodeComponent(message)}';
 
-    try {
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw "Could not launch URL";
-      }
-    } catch (e) {
-      print("Error launching URL: $e");
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
       EasyLoading.dismiss();
-    } finally {
-      EasyLoading.dismiss();
+      throw 'Could not launch $url';
     }
   }
 
