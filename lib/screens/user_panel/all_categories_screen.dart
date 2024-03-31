@@ -106,8 +106,11 @@ class _AllcategoriesScreenState extends State<AllcategoriesScreen> {
           CategoriesModel category = _filteredCategories[index];
           return GestureDetector(
             onTap: () {
-              Get.to(() => AllsingleCategoriesproductScreen(
-                  categoryId: category.categoryId));
+              Get.to(
+                  () => AllsingleCategoriesproductScreen(
+                      categoryId: category.categoryId),
+                  transition: Transition.fade,
+                  duration: const Duration(seconds: 1));
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),

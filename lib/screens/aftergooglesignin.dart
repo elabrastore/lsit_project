@@ -57,7 +57,9 @@ class _AfterGoogleSignInState extends State<AfterGoogleSignIn> {
                 FirebaseAuth _auth = FirebaseAuth.instance;
                 await _auth.signOut();
                 await googleSignIn.signOut();
-                Get.offAll(() => const AfterSplash());
+                Get.offAll(() => const AfterSplash(),
+                    transition: Transition.fade,
+                    duration: const Duration(seconds: 1));
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),

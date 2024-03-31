@@ -394,7 +394,9 @@ class _CardSceenState extends State<CardSceen> {
                 ),
                 onPressed: () {
                   if (isCardNotEmpty) {
-                    Get.to(() => const CheckOutScreen());
+                    Get.to(() => const CheckOutScreen(),
+                        transition: Transition.fade,
+                        duration: const Duration(seconds: 1));
                   } else {
                     // Display an error message or handle the case where the card is empty
                     Get.snackbar(
@@ -418,7 +420,9 @@ class _CardSceenState extends State<CardSceen> {
                         textCancel: "Cancel",
                         cancelTextColor: Colors.white,
                         onConfirm: () {
-                          Get.to(() => const AllcategoriesScreen());
+                          Get.to(() => const AllcategoriesScreen(),
+                              transition: Transition.fade,
+                              duration: const Duration(seconds: 1));
                         },
                         confirmTextColor: Colors.red,
                         buttonColor: Colors.white,

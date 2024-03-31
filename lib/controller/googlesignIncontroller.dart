@@ -65,7 +65,9 @@ class GoogleSignInController extends GetxController {
           // loading off
           EasyLoading.dismiss();
 
-          Get.to(() => const AfterGoogleSignIn());
+          Get.to(() => const AfterGoogleSignIn(),
+              transition: Transition.fade,
+              duration: const Duration(seconds: 1));
         }
       }
     } catch (e) {

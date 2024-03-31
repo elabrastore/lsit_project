@@ -287,7 +287,9 @@ class _SignupState extends State<Signup> {
                     6.widthBox,
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => const SigninScreen());
+                        Get.to(() => const SigninScreen(),
+                            transition: Transition.fade,
+                            duration: const Duration(seconds: 1));
                       },
                       child: "Sign In"
                           .text
@@ -387,7 +389,9 @@ class _SignupState extends State<Signup> {
                                     colorText: Colors.white);
 
                                 FirebaseAuth.instance.signOut();
-                                Get.offAll(() => const SigninScreen());
+                                Get.offAll(() => const SigninScreen(),
+                                    transition: Transition.fade,
+                                    duration: const Duration(seconds: 1));
                               }
                             }
                           }

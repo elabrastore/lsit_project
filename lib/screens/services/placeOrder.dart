@@ -116,7 +116,9 @@ void placeOrder(
           textCancel: "Cancel",
           cancelTextColor: Colors.black,
           onConfirm: () {
-            Get.offAll(() => const OrderScreen());
+            Get.offAll(() => const OrderScreen(),
+                transition: Transition.fade,
+                duration: const Duration(seconds: 1));
           },
           confirmTextColor: Colors.white,
           buttonColor: const Color.fromARGB(255, 4, 127, 68),

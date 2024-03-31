@@ -54,9 +54,12 @@ class CategoriesWidget extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => AllsingleCategoriesproductScreen(
-                              categoryId: categoriesModel.categoryId,
-                            ));
+                        Get.to(
+                            () => AllsingleCategoriesproductScreen(
+                                  categoryId: categoriesModel.categoryId,
+                                ),
+                            transition: Transition.fade,
+                            duration: const Duration(seconds: 1));
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),

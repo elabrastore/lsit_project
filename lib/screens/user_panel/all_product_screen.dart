@@ -98,9 +98,12 @@ class AllProductScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => ProductDetailScreen(
-                              productModel: productModel,
-                            ));
+                        Get.to(
+                            () => ProductDetailScreen(
+                                  productModel: productModel,
+                                ),
+                            transition: Transition.fade,
+                            duration: const Duration(seconds: 1));
                       },
                       child: FillImageCard(
                         borderRadius: 20.0,

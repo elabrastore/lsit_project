@@ -71,7 +71,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             radius: 10,
             textCancel: "Cancel",
             onConfirm: () {
-              Get.to(() => const CheckOutScreen());
+              Get.to(() => const CheckOutScreen(),
+                  transition: Transition.fade,
+                  duration: const Duration(seconds: 1));
             },
             textConfirm: "CheckOut");
 
@@ -126,7 +128,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             radius: 10,
             textCancel: "Cancel",
             onConfirm: () {
-              Get.to(() => const CardSceen());
+              Get.to(() => const CardSceen(),
+                  transition: Transition.fade,
+                  duration: const Duration(seconds: 1));
             },
             textConfirm: "Cart");
 
@@ -194,7 +198,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(() => const CardSceen());
+              Get.to(() => const CardSceen(),
+                  transition: Transition.fade,
+                  duration: const Duration(seconds: 1));
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),

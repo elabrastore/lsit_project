@@ -169,7 +169,9 @@ class _SigninScreenState extends State<SigninScreen> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        Get.to(() => const ForgetPassword());
+                        Get.to(() => const ForgetPassword(),
+                            transition: Transition.fade,
+                            duration: const Duration(seconds: 1));
                       },
                       child: "Forget Password"
                           .text
@@ -233,7 +235,9 @@ class _SigninScreenState extends State<SigninScreen> {
                                         const Color.fromARGB(255, 255, 136, 0),
                                     colorText: Colors.white,
                                   );
-                                  Get.offAll(() => const AdminScreen());
+                                  Get.offAll(() => const AdminScreen(),
+                                      transition: Transition.fade,
+                                      duration: const Duration(seconds: 1));
                                 } else {
                                   Get.offAll(() => const AfterGoogleSignIn());
                                   Get.snackbar(
@@ -336,7 +340,9 @@ class _SigninScreenState extends State<SigninScreen> {
                       6.widthBox,
                       GestureDetector(
                         onTap: () {
-                          Get.to(() => const Signup());
+                          Get.to(() => const Signup(),
+                              transition: Transition.fade,
+                              duration: const Duration(seconds: 1));
                         },
                         child: "Sign Up"
                             .text

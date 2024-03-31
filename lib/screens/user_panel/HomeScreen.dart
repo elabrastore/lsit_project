@@ -36,7 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
               headingTitle: "Catagories",
               headingSubTitle: "low Budgets",
               onTap: () {
-                Get.to(() => const AllcategoriesScreen());
+                Get.to(() => const AllcategoriesScreen(),
+                    transition: Transition.fade,
+                    duration: const Duration(seconds: 1));
               },
             ),
             const CategoriesWidget(),
@@ -45,7 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
               headingTitle: "Flash Sale",
               headingSubTitle: "Mega Sale in E-labra",
               onTap: () {
-                Get.to(() => const AllFlashsaleProductScreen());
+                Get.to(() => const AllFlashsaleProductScreen(),
+                    transition: Transition.fade,
+                    duration: const Duration(seconds: 1));
               },
             ),
             const FlashSale(),
@@ -54,7 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
               headingTitle: "All Categories",
               headingSubTitle: "According to your Budget",
               onTap: () {
-                Get.to(() => const AllProductScreen());
+                Get.to(() => const AllProductScreen(),
+                    transition: Transition.fade,
+                    duration: const Duration(seconds: 1));
               },
             ),
             const AllProductsWidget(),

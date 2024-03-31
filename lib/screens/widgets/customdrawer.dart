@@ -117,7 +117,9 @@ class _DrawerCustomState extends State<DrawerCustom> {
                     titleAlignment: ListTileTitleAlignment.center,
                     title: "Flash Sale 📢 💯 🥳".text.white.make(),
                     onTap: () {
-                      Get.to(() => const AllFlashsaleProductScreen());
+                      Get.to(() => const AllFlashsaleProductScreen(),
+                          transition: Transition.fade,
+                          duration: const Duration(seconds: 1));
                     },
                     leading: const Icon(
                       Icons.lock_clock,
@@ -135,7 +137,9 @@ class _DrawerCustomState extends State<DrawerCustom> {
                     titleAlignment: ListTileTitleAlignment.center,
                     title: "All Products".text.white.make(),
                     onTap: () {
-                      Get.to(() => const AllProductScreen());
+                      Get.to(() => const AllProductScreen(),
+                          transition: Transition.fade,
+                          duration: const Duration(seconds: 1));
                     },
                     leading: const Icon(
                       Icons.production_quantity_limits,
@@ -162,7 +166,9 @@ class _DrawerCustomState extends State<DrawerCustom> {
                     ),
                     onTap: () {
                       Get.back();
-                      Get.to(() => const OrderScreen());
+                      Get.to(() => const OrderScreen(),
+                          transition: Transition.fade,
+                          duration: const Duration(seconds: 1));
                     },
                   ),
                 ),
@@ -172,7 +178,9 @@ class _DrawerCustomState extends State<DrawerCustom> {
                     titleAlignment: ListTileTitleAlignment.center,
                     title: "contact 🤳".text.white.make(),
                     onTap: () {
-                      Get.to(() => const ContactUs());
+                      Get.to(() => const ContactUs(),
+                          transition: Transition.fade,
+                          duration: const Duration(seconds: 1));
                     },
                     leading: const Icon(
                       Icons.help_center,
@@ -199,7 +207,9 @@ class _DrawerCustomState extends State<DrawerCustom> {
                           FirebaseAuth _auth = FirebaseAuth.instance;
                           await _auth.signOut();
                           await googleSignIn.signOut();
-                          Get.offAll(() => const AfterSplash());
+                          Get.offAll(() => const AfterSplash(),
+                              transition: Transition.fade,
+                              duration: const Duration(seconds: 1));
                         },
                         titleAlignment: ListTileTitleAlignment.center,
                         title: "LogOut"

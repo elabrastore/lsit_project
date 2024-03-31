@@ -44,7 +44,8 @@ class _SplashscreenState extends State<Splashscreen> {
         Get.offAll(() => const AfterGoogleSignIn());
       }
     } else {
-      Get.offAll(() => const AfterSplash());
+      Get.offAll(() => const AfterSplash(),
+          transition: Transition.fade, duration: const Duration(seconds: 1));
     }
   }
 
