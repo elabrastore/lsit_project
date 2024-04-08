@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:list_fyp_project/controller/internetConnectivity.dart';
 import 'package:list_fyp_project/firebase_options.dart';
 import 'package:flutter/services.dart';
 
@@ -18,6 +19,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
+  Get.put(InternetConnectivity(), permanent: true);
 }
 
 class MyApp extends StatelessWidget {

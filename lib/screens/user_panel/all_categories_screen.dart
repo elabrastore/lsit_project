@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,6 +12,7 @@ import 'package:image_card/image_card.dart';
 import 'package:list_fyp_project/models/catagory_model.dart';
 import 'package:list_fyp_project/screens/constant/image.dart';
 import 'package:list_fyp_project/screens/user_panel/single_Categories_product_screen.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class AllcategoriesScreen extends StatefulWidget {
   const AllcategoriesScreen({Key? key}) : super(key: key);
@@ -22,8 +24,12 @@ class AllcategoriesScreen extends StatefulWidget {
 class _AllcategoriesScreenState extends State<AllcategoriesScreen> {
   late List<CategoriesModel> _categories;
   late List<CategoriesModel> _filteredCategories;
+  var voiceSearch = "";
+  var islistening = false;
 
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController _voiceSearchController = TextEditingController();
+
+  SpeechToText speechToText = SpeechToText();
 
   @override
   void initState() {
@@ -56,9 +62,23 @@ class _AllcategoriesScreenState extends State<AllcategoriesScreen> {
     }
   }
 
-  void filterCategories(String query) {
+  // filteration functionality
+  /*void filterCategories(String query) {
     List<CategoriesModel> filteredList = _categories.where((category) {
       return category.catagoryName.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
+    setState(() {
+      _filteredCategories = filteredList;
+    });
+  }*/
+
+  // Voice Search Functionality
+  void filterVoiceCategories(String voiceSearch) {
+    List<CategoriesModel> filteredList = _categories.where((category) {
+      return category.catagoryName
+          .toLowerCase()
+          .contains(voiceSearch.toLowerCase());
     }).toList();
 
     setState(() {
@@ -69,6 +89,47 @@ class _AllcategoriesScreenState extends State<AllcategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: AvatarGlow(
+        animate: islistening,
+        duration: const Duration(milliseconds: 2000),
+        glowColor: Colors.orange,
+        repeat: true,
+        child: GestureDetector(
+          onTapDown: (details) async {
+            setState(() async {
+              if (!islistening) {
+                var available = await speechToText.initialize();
+                if (available) {
+                  setState(() {
+                    islistening = true;
+                    speechToText.listen(onResult: (result) {
+                      setState(() {
+                        voiceSearch = result.recognizedWords;
+                        _voiceSearchController.text = voiceSearch;
+                        filterVoiceCategories(voiceSearch);
+                      });
+                    });
+                  });
+                }
+              }
+            });
+          },
+          onTapUp: (details) {
+            setState(() {
+              islistening = false;
+            });
+            speechToText.stop();
+          },
+          child: CircleAvatar(
+            backgroundColor: Colors.deepOrange,
+            radius: 35,
+            child: Icon(
+              islistening ? Icons.mic : Icons.mic_none,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         flexibleSpace: Container(
@@ -79,57 +140,72 @@ class _AllcategoriesScreenState extends State<AllcategoriesScreen> {
         title: Align(
           alignment: Alignment.center,
           child: TextField(
-            controller: _searchController,
-            onChanged: (query) {
-              filterCategories(query);
+            controller: _voiceSearchController,
+            onChanged: (voiceSearch) {
+              filterVoiceCategories(voiceSearch);
             },
-            decoration: const InputDecoration(
-              hintText: 'Search Categories',
-              hintStyle: TextStyle(color: Colors.white),
+            decoration: InputDecoration(
+              suffixIcon: IconButton(
+                onPressed: () {
+                  _voiceSearchController.clear(); // Clear the text field
+                  filterVoiceCategories(''); // Clear the filtering
+                },
+                icon: const Icon(Icons.clear, color: Colors.white),
+              ),
+              hintText: "Search Categories",
+              hintStyle: const TextStyle(color: Colors.white),
               border: InputBorder.none,
             ),
             style: const TextStyle(color: Colors.white),
           ),
         ),
       ),
-      body: GridView.builder(
-        itemCount: _filteredCategories.length,
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 3,
-          crossAxisSpacing: 3,
-          childAspectRatio: 1.19,
-        ),
-        itemBuilder: (context, index) {
-          CategoriesModel category = _filteredCategories[index];
-          return GestureDetector(
-            onTap: () {
-              Get.to(
-                  () => AllsingleCategoriesproductScreen(
-                      categoryId: category.categoryId),
-                  transition: Transition.fade,
-                  duration: const Duration(seconds: 1));
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FillImageCard(
-                borderRadius: 20.0,
-                width: Get.width / 2.4,
-                heightImage: Get.height / 10,
-                imageProvider:
-                    CachedNetworkImageProvider(category.catagoryImag),
-                title: Center(
-                  child: Text(
-                    category.catagoryName,
-                    style: const TextStyle(fontSize: 12.0),
-                  ),
-                ),
+      body: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            GridView.builder(
+              itemCount: _filteredCategories.length,
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 3,
+                crossAxisSpacing: 3,
+                childAspectRatio: 1.19,
               ),
+              itemBuilder: (context, index) {
+                CategoriesModel category = _filteredCategories[index];
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(
+                        () => AllsingleCategoriesproductScreen(
+                            categoryId: category.categoryId),
+                        transition: Transition.fade,
+                        duration: const Duration(seconds: 1));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FillImageCard(
+                      borderRadius: 20.0,
+                      width: Get.width / 2.4,
+                      heightImage: Get.height / 10,
+                      imageProvider:
+                          CachedNetworkImageProvider(category.catagoryImag),
+                      title: Center(
+                        child: Text(
+                          category.catagoryName,
+                          style: const TextStyle(fontSize: 12.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

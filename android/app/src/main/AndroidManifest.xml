@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
   <queries>
  
   <intent>
@@ -20,6 +23,9 @@
     <action android:name="android.support.customtabs.action.CustomTabsService" />
   </intent>
     </queries>
+
+   
+
     <application
         android:label="list_fyp_project"
         android:name="${applicationName}"

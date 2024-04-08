@@ -37,6 +37,7 @@ class _CardSceenState extends State<CardSceen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         iconTheme: const IconThemeData(color: Colors.white),
         flexibleSpace: Container(),
         title: const Align(
