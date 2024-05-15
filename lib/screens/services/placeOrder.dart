@@ -116,7 +116,7 @@ void placeOrder(
           textCancel: "Cancel",
           cancelTextColor: Colors.black,
           onConfirm: () {
-            Get.offAll(() => const OrderScreen(),
+            Get.to(() => const OrderScreen(),
                 transition: Transition.fade,
                 duration: const Duration(seconds: 1));
           },

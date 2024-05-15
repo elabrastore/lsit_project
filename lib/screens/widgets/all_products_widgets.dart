@@ -101,7 +101,9 @@ class AllProductsWidget extends StatelessWidget {
                       footer: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          "Rs ${productModel.fullPrice}".text.make(),
+                          Expanded(
+                              child:
+                                  "Rs ${productModel.fullPrice}".text.make()),
                           const Icon(
                             CupertinoIcons.cart,
                             size: 20,
